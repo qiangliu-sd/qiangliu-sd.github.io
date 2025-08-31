@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Read File from Server</title>
-</head>
-<body>
-  <h1>File Content:</h1>
-  <div id="file-content">Loading...</div>
-
-  <script>
-    // Fetch the text file from the server
-    fetch('README.md') 
+  
+  <!-- script src="utils/ql_read_md.js"></script -->
+ <script> 
+  function ql_read_markdown(path) {
+	    // Fetch the text file from the server
+    fetch(path) 
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
@@ -19,13 +17,26 @@
         return response.text(); // Parse the response as text
       })
       .then(data => {
-        // Display the file content in the HTML
-        document.getElementById('file-content').textContent = data;
+        //document.getElementById('file-content').textContent = data;
+		return data;
       })
       .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        document.getElementById('file-content').textContent = 'Error loading file.';
+        //console.error('There was a problem with the fetch operation:', error);
+        //document.getElementById('file-content').textContent = 'Error loading file.';
+		return 'Error loading file.';
       });
+}
+</script>
+
+</head>
+<body>
+  <h1>File Content:</h1>
+  <div id="file-content">Loading...</div>
+
+  <script>
+	const markdownContent = ql_read_markdown('README.md');
+	
+	document.getElementById('file-content').textContent = markdownContent;
   </script>
 </body>
 </html>
