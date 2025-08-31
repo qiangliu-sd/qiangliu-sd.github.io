@@ -6,21 +6,7 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     #output { white-space: pre-wrap; background: #f4f4f4; padding: 10px; border: 1px solid #ccc; }
-  </style>
-
-   <script>
-    async function loadServerFile(url_md) {
-      try {
-        const response = await fetch(url_md); 
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const text = await response.text();
-        document.getElementById('output').textContent = text;
-      } catch (error) {
-        document.getElementById('output').textContent = 'Error loading file: ' + error.message;
-      }
-    }
-  </script>
-  
+  </style>  
      
 </head>
 <body>
@@ -28,13 +14,14 @@
   
   <div id="markdownOut">Click the button to load content...</div>
 
-  <script src="utils/ql_read_md.js"></script>
-  
-  <script>    
-   qlReadServerFile('README.md')
+  <script src="utils/ql_read_md.js">
+    qlReadServerFile('https://github.com/qiangliu-sd/enforcedDynaPyTkValid/blob/main/README.md')
   </script>
+  
+  <!-- script>     qlReadServerFile('README.md') </script -->
 </body>
 </html>
+
 
 
 
