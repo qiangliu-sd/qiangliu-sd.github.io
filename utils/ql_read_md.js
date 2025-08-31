@@ -7,8 +7,10 @@ async function qlReadServerFile(url_md) {
 
         if (!response.ok) throw new Error(`HTTP XCP: ${response.status}`);
         const text = await response.text();
-        htmlObj.textContent = text;
+		  const htmlTxt = marked.parse(text);
+        htmlObj.textContent = htmlTxt;
       } catch (error) {
         htmlObj.textContent = 'XCP fetch file: ' + error.message;
       }
+
     }
