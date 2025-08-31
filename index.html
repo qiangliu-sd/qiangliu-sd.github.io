@@ -9,31 +9,9 @@
   </style>
 
    <script>
-    function ql_loadFile(md_path) {
+    async function loadServerFile(url_md) {
       try {
-        const response = fetch(md_path); 
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        
-        const text = response.text();
-        //document.getElementById('output').textContent = text;
-        return text;
-      } catch (error) {
-        //document.getElementById('output').textContent = 'Error loading file: ' + error.message;
-        return error.message;
-      }
-    }
-   </script>
-     
-</head>
-<body>
-  <h2>Server File Viewer</h2>
-  <button onclick="loadFile()">Load File</button>
-  <div id="output">Click the button to load content...</div>
-
-  <script>
-    async function loadFile() {
-      try {
-        const response = await fetch('README.md'); // Replace with your actual file path
+        const response = await fetch(url_md); 
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const text = await response.text();
         document.getElementById('output').textContent = text;
@@ -41,12 +19,21 @@
         document.getElementById('output').textContent = 'Error loading file: ' + error.message;
       }
     }
+  </script>
+  
+     
+</head>
+<body>
+  <h2>Server File Viewer</h2>
+  
+  <div id="output">Click the button to load content...</div>
 
-   //loadFile(); 
-   document.getElementById('output').textContent = ql_loadFile('README.md')
+  <script>    
+   loadServerFile('README.md')
   </script>
 </body>
 </html>
+
 
 
 
