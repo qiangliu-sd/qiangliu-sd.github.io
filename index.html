@@ -9,13 +9,14 @@
   </style>
 
    <script>
-    async function ql_loadFile(md_path) {
+    function ql_loadFile(md_path) {
       try {
-        const response = await fetch(md_path); 
+        const response = fetch(md_path); 
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const text = await response.text();
+        
+        const text = response.text();
         //document.getElementById('output').textContent = text;
-        return text;
+        if (text) return text;
       } catch (error) {
         //document.getElementById('output').textContent = 'Error loading file: ' + error.message;
         return "XCP";
@@ -46,6 +47,7 @@
   </script>
 </body>
 </html>
+
 
 
 
