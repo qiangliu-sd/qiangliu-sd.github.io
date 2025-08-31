@@ -18,10 +18,11 @@
       })
       .then(data => {
         //document.getElementById('file-content').textContent = data;
+		  console.error('data:', data);
 		return data;
       })
       .catch(error => {
-        //console.error('There was a problem with the fetch operation:', error);
+        console.error('There was a problem with the fetch operation:', error);
         //document.getElementById('file-content').textContent = 'Error loading file.';
 		return 'Error loading file.';
       });
@@ -40,3 +41,4 @@
   </script>
 </body>
 </html>
+
