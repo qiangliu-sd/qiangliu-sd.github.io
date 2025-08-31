@@ -9,7 +9,7 @@
  <script> 
   function ql_read_markdown(path) {
 	    // Fetch the text file from the server
-    fetch(path) 
+    fetch('README.md') 
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
@@ -55,5 +55,6 @@
   </script>
 </body>
 </html>
+
 
 
