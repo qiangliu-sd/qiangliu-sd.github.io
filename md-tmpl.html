@@ -16,35 +16,20 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <!-- Main Container Card -->
     <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl">
-
         <!-- Header -->
-        <div class="text-center">Replace me Title</div>
-        
+        <div class="text-center">Replace the Title</div>        
         <!-- Markdown Output Area -->
         <div id="markdownOut" class="markdown-content border-t border-gray-200 pt-6">
         </div>
     </div>
 
   <script src="utils/ql_read_md.js">
-    // load js function: qlReadServerFile
+    // LOAD js-func: qlReadServerFile
   </script>  
   <script> 
-    qlReadServerFile('https://github.com/qiangliu-sd/enforcedDynaPyTkValid/blob/main/README.md') 
+	// CALL js-func
+    qlReadServerFile('markd/README.md') 
   </script>
   
-  
-    <!-- script>
-        // The markdown content is a JavaScript string
-        const markdownContent = `
-### Markdown Here: *Replace me*
-`;
-
-        const htmlContent = marked.parse(markdownContent);
-		
-        const markdownOutput = document.getElementById('markdownOutput');       
-        // show in HTML
-        markdownOutput.innerHTML = htmlContent;
-    </script></-->
-
 </body>
 </html>
