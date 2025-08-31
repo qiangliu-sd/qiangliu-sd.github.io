@@ -16,10 +16,10 @@
         
         const text = response.text();
         //document.getElementById('output').textContent = text;
-        if (text) return text;
+        return text;
       } catch (error) {
         //document.getElementById('output').textContent = 'Error loading file: ' + error.message;
-        return "XCP";
+        return error.message;
       }
     }
    </script>
@@ -47,6 +47,7 @@
   </script>
 </body>
 </html>
+
 
 
 
