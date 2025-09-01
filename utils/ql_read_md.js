@@ -14,8 +14,9 @@ async function qlReadServerFile(url_md) {
 		const htmlObj  = document.getElementById('markdownOut')
 
         if (!response.ok) throw new Error(`HTTP XCP: ${response.status}`);
-        text = await response.text();
-		const  md_text = text.replace(/\r\n|\r/g, '\n');
+        let md_text = await response.text();
+        // Normalize line endings and trim leading spaces
+        md_text = md_text.replace(/\r\n|\r/g, '\n').replace(/^\s+/gm, '');
 		  // LOAD utils/marked.min.js before calling marked.parse
 		  const htmlTxt = marked.parse(md_text);
         htmlObj.innerHTML = htmlTxt;
@@ -24,6 +25,7 @@ async function qlReadServerFile(url_md) {
       }
 
     }
+
 
 
 
