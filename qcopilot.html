@@ -43,7 +43,7 @@
     }
 
     function md2Html(url_md) {
-      const mdContent = await fetchMarkdown(url_md); 
+      const mdContent = fetchMarkdown(url_md); 
       const outputDiv = document.getElementById('output');
 	  
 	  marked.setOptions({
@@ -65,3 +65,4 @@
   </script>
 </body>
 </html>
+
