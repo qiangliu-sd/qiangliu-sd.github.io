@@ -8,7 +8,44 @@
 	<!-- UN-Comment for Github web server -->
 	<base href="https://qiangliu-sd.github.io" target="_blank">
     <script src="utils/saved_CDN_resource"></script>
-    <link rel="stylesheet" type="text/css" media="all" href="utils/markdown.css">
+    <!-- link rel="stylesheet" type="text/css" media="all" href="utils/markdown.css" -->
+
+	<style>
+    body {
+      font-family: sans-serif;
+      margin: 2em;
+      background: #f9f9f9;
+    }
+    h1 {
+      margin-bottom: 0.5em;
+    }
+    input[type="file"] {
+      margin-bottom: 1em;
+    }
+    #markdownOut {
+      border: 1px solid #ccc;
+      background: #fff;
+      padding: 1em;
+      margin-top: 1em;
+      white-space: normal;
+    }
+    ul, ol {
+      margin-left: 1.5em;
+    }
+    li {
+      margin-bottom: 0.3em;
+    }
+    pre {
+      background: #eee;
+      padding: 0.5em;
+      overflow-x: auto;
+    }
+    code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
 
     <script src="utils/marked.min.js"></script>
 </head>
@@ -19,8 +56,8 @@
         <!-- Header -->
         <div class="text-center">稳定币并非货币</div>        
         <!-- Markdown Output Area -->
-        <div id="markdownOut" class="markdown-content border-t border-gray-200 pt-6">
-        </div>
+        <!-- div id="markdownOut" class="markdown-content border-t border-gray-200 pt-6"> </div -->
+		<div id="markdownOut"></div>
     </div>
 
   <script src="utils/ql_read_md.js">
