@@ -1,78 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-100 h-full">
-
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QLiu Markdown Template</title>
+	<title>QLiu Html Template for Markdown</title>
+	
 	<!-- UN-Comment for Github web server -->
 	<base href="https://qiangliu-sd.github.io" target="_blank">
-    <script src="utils/saved_CDN_resource"></script>
-    <!-- link rel="stylesheet" type="text/css" media="all" href="utils/markdown.css" -->
-
-	<style>
-    body {
-      font-family: sans-serif;
-      margin: 2em;
-      background: #f9f9f9;
-    }
-    h1 {
-      margin-bottom: 0.5em;
-    }
-    input[type="file"] {
-      margin-bottom: 1em;
-    }
-    #markdownOut {
-      border: 1px solid #ccc;
-      background: #fff;
-      padding: 1em;
-      margin-top: 1em;
-      white-space: normal;
-    }
-    ul, ol {
-      margin-left: 1.5em;
-    }
-    li {
-      margin-bottom: 0.3em;
-    }
-    pre {
-      background: #eee;
-      padding: 0.5em;
-      overflow-x: auto;
-    }
-    code {
-      background: #eee;
-      padding: 2px 4px;
-      border-radius: 4px;
-    }
-  </style>
-
-    <script src="utils/marked.min.js"></script>
+	
+  <script src="utils/marked.min.js"></script>
+  <script src="utils/ql_import_md.js"></script>
+  <link rel="stylesheet" type="text/css" media="all" href="utils/ql_markdown.css">
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <!-- Main Container Card -->
-    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl">
-        <!-- Header -->
-        <div class="text-center">稳定币并非货币</div>        
-        <!-- Markdown Output Area -->
-        <!-- div id="markdownOut" class="markdown-content border-t border-gray-200 pt-6"> </div -->
-		<div id="markdownOut"></div>
-    </div>
+<body>
+  <h3>稳定币并非货币</h3>
+  <div id="markdownOut"></div>
 
-  <script src="utils/ql_read_md.js">
-    // LOAD js-func: qlReadServerFile
-  </script>  
-  <script> 
-	marked.setOptions({
-      gfm: true,
-      breaks: true,
-      smartLists: true,
-      smartypants: true
+  <script>
+    // Auto-load server Markdown
+    window.addEventListener('DOMContentLoaded', () => {
+        loadAndRenderMarkdown('markdownOut', 'econ/cryptoccy/stablecoin.md');
     });
-	// CALL js-func
-    qlReadServerFile('econ/cryptoccy/stablecoin.md') 
   </script>
-  
 </body>
 </html>
