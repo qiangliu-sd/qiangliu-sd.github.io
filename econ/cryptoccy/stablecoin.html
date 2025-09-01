@@ -27,6 +27,12 @@
     // LOAD js-func: qlReadServerFile
   </script>  
   <script> 
+	marked.setOptions({
+      gfm: true,
+      breaks: true,
+      smartLists: true,
+      smartypants: true
+    });
 	// CALL js-func
     qlReadServerFile('econ/cryptoccy/stablecoin.md') 
   </script>
