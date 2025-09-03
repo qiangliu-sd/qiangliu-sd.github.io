@@ -16,3 +16,13 @@ async function loadAndRenderMarkdown(he_id, url_md) {
   const mdHtml = marked.parse(mdText);
   document.getElementById(he_id).innerHTML = mdHtml;
 }
+
+function getUrlParams() {
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const params = {};
+	for (const [key, value] of urlParams.entries()) {
+		params[key] = value;
+	}
+	return params;
+}
