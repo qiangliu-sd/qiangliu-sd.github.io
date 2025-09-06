@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- by COPILOT, an extremely simple tool -->
+  <title>QLiu:: Markdown Viewer</title>
+  <meta charset="UTF-8">
+  <script src="utils/marked.min.js"></script>
+  <!-- script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script -->
+  <link rel="stylesheet" type="text/css" media="all" href="utils/ql_md_copilot.css">
+</style>
+</head>
+<body>
+  <h1>📄 QLiu Markdown Viewer</h1>
+  <input type="file" id="fileMd" accept=".md,.txt" />
+  <div id="markdownOut">Markdown file to render here.</div>
+
+  <script>
+    const fileMd = document.getElementById('fileMd');
+    const mdOut = document.getElementById('markdownOut');
+
+    fileMd.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        let mdText = reader.result;
+
+        mdOut.innerHTML = marked.parse(mdText);
+      };
+      reader.readAsText(file, 'UTF-8');
+    });
+  </script>
+</body>
+</html>
