@@ -28,17 +28,19 @@
   </style>
 </head>
 <body>
-  <h3>Markdown:📝Edit & View</h3>
-  <button onclick="copyToClipboard()">📋Copy</button>
-  <button onclick="saveToFile()">💾Save</button>&nbsp;&nbsp;&nbsp;&nbsp;<i id="msg"></i>
+  <h2>Markdown:📝Edit & View</h2>
+  <button onclick="copyToClipboard()">📋Copy</button><br>
+  <button onclick="saveToFile()">💾Save</button><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<i id="msg"></i>
   
   <div class="container">
   <div class="column">
-	<textarea id="markdownIn" placeholder="# Type Markdown here..."># MD Title</textarea>
-  </div>
-  <div class="column">
 	<div id="markdownOut"></div>
+  </div>
+  <div class="column"><i>Write your markdown in the box below</i>:<br><br>
+	<textarea id="markdownIn" placeholder="# Type here..."></textarea>
   </div></div>
+
 
   <script>
     const input = document.getElementById('markdownIn');

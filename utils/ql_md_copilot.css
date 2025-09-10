@@ -4,16 +4,17 @@ body {
   background: #f9f9f9;
 }
 h1 {
-  margin-bottom: 0.5em;
+  margin-top: 0.01em;
+  margin-bottom: 0.3em;
 }
 input[type="file"] {
   margin-bottom: 1em;
 }
 #markdownOut {
-  border: 1px dotted  #ccc;
+  border: 0.5px dotted  #ccc;
   background: #fff;
-  padding: 1em;
-  margin-top: 1em;
+  padding: 0.3em;
+  margin-top: 0.1em;
   white-space: normal;
 }
 ul, ol {
