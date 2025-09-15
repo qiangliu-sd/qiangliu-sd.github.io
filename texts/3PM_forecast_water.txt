@@ -1,0 +1,17 @@
+================================ Human Message =================================
+
+3 PM weather forecast, water temperature, Solana Beach California
+================================== Ai Message ==================================
+Tool Calls:
+  hourlyForecast (cda176f2-7b54-48e1-be3c-12df3de8a448)
+ Call ID: cda176f2-7b54-48e1-be3c-12df3de8a448
+  Args:
+    location: Solana Beach California
+  waterTemperature (9eb20a8f-3c03-44b5-a53a-f999f8aff033)
+ Call ID: 9eb20a8f-3c03-44b5-a53a-f999f8aff033
+  Args:
+    location: Solana Beach California
+
+================================== Ai Message ==================================
+
+The weather forecast for Solana Beach, California at 3 PM is mostly sunny with a temperature of 72°F, 0% precipitation, 69% humidity, and a wind of 9 mph. The water temperature in Solana Beach is 71°F (21.5°C).

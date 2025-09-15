@@ -1,0 +1,24 @@
+================================ Human Message =================================
+
+weather forecast, water temperature, Solana Beach California
+================================== Ai Message ==================================
+Tool Calls:
+  hourlyForecast (152a6dce-2734-4c4e-9d65-f38f05e5125a)
+ Call ID: 152a6dce-2734-4c4e-9d65-f38f05e5125a
+  Args:
+    location: Solana Beach California
+  waterTemperature (a74a8ced-f6f6-4340-be8c-5b3758bcba01)
+ Call ID: a74a8ced-f6f6-4340-be8c-5b3758bcba01
+  Args:
+    location: Solana Beach California
+
+================================== Ai Message ==================================
+
+The weather forecast for Solana Beach, California is currently 72°F and sunny, with winds at 9 mph and 73% humidity.
+
+The forecast for the next few days is:
+*   **Saturday:** Sunny, with a high of 72°F and a low of 64°F.
+*   **Sunday:** Sunny, with a high of 74°F and a low of 62°F.
+*   **Monday:** Sunny, with a high of 75°F and a low of 64°F.
+
+The current sea water temperature in Solana Beach, California is 71°F (21.5°C).
