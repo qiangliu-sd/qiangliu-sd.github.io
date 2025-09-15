@@ -1,5 +1,6 @@
 # AI Agents vs Traditional Apps: A Simple Comparison
-    Using a beach-town weather utility as an example
+    A LLM with tools is called an AI agent
+	Using a beach-town weather agent as an example
 
 Living in San Diego, I enjoy learning to surf. Looking for perfect weather conditions before heading to the beach, I used to check weather on my phone and also find out the water temperature online.
 
@@ -13,12 +14,17 @@ After a few days, the code stopped working. The data I pored over had Celsius an
 
 At this point, I decided to give AI agents a try. My weather AI agent is posted on [Github](https://github.com/qiangliu-sd/ai-agent-LangGraph).
 
-Basically, I defined two Google searches via SerpApi as *tools* (i.e., Py-methods) and handed them to **Gemini 2.5 Flash** (the LLM I used, or the *brain* of my agent). By definition, **a LLM with tools are called an AI agent**.
+Basically, I defined two Google searches via SerpApi as *tools* (i.e., Py-methods) and handed them to **Gemini 2.5 Flash** (the LLM I used, or the *brain* of my agent). By definition, **a LLM with tools is called an AI agent**.
 
 After I gave it the prompt, Gemini handled all the tool calls and the details of information extraction, without any of my coding!
 
-I tested four prompts progressively. The agent worked very well for me. The prompts and truncated replies are list below:
+I tested prompts progressively. The agent worked very well for me. The five prompts and truncated replies are list below:
 1. *weather forecast Poway, California* ([click to see the reply](texts/weather_forecast.txt))
 2. *weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/weather_forecast_water.txt))
 3. *hourly weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/hourly_forecast_water.txt))
 4. *3 PM weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/3PM_forecast_water.txt))
+5. with *if forecast is above 65 and water is above 60, show go surfing* added to Prompt 4, the following message-box: 
+
+![Go Surfing message-box](images/go-surfing.png)
+
+was sent to the user ([click to see the reply](texts/go_surfing.txt))
