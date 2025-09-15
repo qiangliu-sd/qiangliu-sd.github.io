@@ -1,0 +1,25 @@
+================================ Human Message =================================
+
+3 PM weather forecast, water temperature, Solana Beach California
+================================ Human Message =================================
+
+if forecast is above 65 and water is above 60, show go surfing
+================================== Ai Message ==================================
+Tool Calls:
+  hourlyForecast (7720e879-25ed-4f9f-b321-b80617829d9b)
+ Call ID: 7720e879-25ed-4f9f-b321-b80617829d9b
+  Args:
+    location: Solana Beach California
+  waterTemperature (91c3a449-9328-468c-ba6e-2cfc343339ee)
+ Call ID: 91c3a449-9328-468c-ba6e-2cfc343339ee
+  Args:
+    location: Solana Beach California
+================================== Ai Message ==================================
+Tool Calls:
+  goSurfing (09977ca0-d3b3-4a82-a58b-68b82842e910)
+ Call ID: 09977ca0-d3b3-4a82-a58b-68b82842e910
+  Args:
+    location: Solana Beach California
+================================== Ai Message ==================================
+
+The weather forecast for Solana Beach, California at 3 PM is 76°F and sunny. The water temperature is 70.2°F. Given that the forecast is above 65°F and the water temperature is above 60°F, it is a great time to go surfing!

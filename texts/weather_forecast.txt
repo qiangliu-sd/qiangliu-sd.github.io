@@ -1,39 +1,21 @@
 ================================ Human Message =================================
 
-weather forecast Poway, California
+weather forecast, Solana Beach California
 ================================== Ai Message ==================================
 Tool Calls:
-  hourlyForecast (54433b5c-d9c1-465a-99fb-52c64ac11dab)
- Call ID: 54433b5c-d9c1-465a-99fb-52c64ac11dab
+  hourlyForecast (888a40d9-0b7f-4001-a029-23fc523e5d45)
+ Call ID: 888a40d9-0b7f-4001-a029-23fc523e5d45
   Args:
-    location: Poway, California
-================================= Tool Message =================================
-
+    location: Solana Beach California
 ================================== Ai Message ==================================
 
-Here is the hourly weather forecast for Poway, California:
+The weather in Solana Beach, CA is currently 76°F and sunny, with 73% humidity, 10% precipitation, and winds at 7 mph.
 
-Currently, it is Sunny with a temperature of 78°F. There is 0% precipitation, 62% humidity, and winds at 9 mph.
-
-**Today (Saturday):**
-The high will be 78°F and the low will be 60°F. It will be Sunny with 0% precipitation, 62% humidity, and winds at 9 mph.
-
-**Hourly Forecast for Today:**
-*   **9:00 AM:** 69°F, Mostly sunny, 0% precipitation, 67% humidity, 2 mph wind.
-*   **10:00 AM:** 70°F, Mostly sunny, 0% precipitation, 62% humidity, 3 mph wind.
-*   **11:00 AM:** 74°F, Sunny, 0% precipitation, 55% humidity, 5 mph wind.
-*   **12:00 PM:** 77°F, Sunny, 0% precipitation, 50% humidity, 6 mph wind.
-*   **1:00 PM:** 78°F, Sunny, 0% precipitation, 49% humidity, 8 mph wind.
-*   **2:00 PM:** 78°F, Sunny, 0% precipitation, 52% humidity, 9 mph wind.
-*   **3:00 PM:** 76°F, Sunny, 0% precipitation, 54% humidity, 9 mph wind.
-*   **4:00 PM:** 75°F, Sunny, 0% precipitation, 56% humidity, 8 mph wind.
-*   **5:00 PM:** 74°F, Sunny, 0% precipitation, 57% humidity, 7 mph wind.
-*   **6:00 PM:** 72°F, Sunny, 0% precipitation, 61% humidity, 6 mph wind.
-*   **7:00 PM:** 68°F, Clear, 0% precipitation, 71% humidity, 5 mph wind.
-*   **8:00 PM:** 65°F, Clear, 0% precipitation, 80% humidity, 2 mph wind.
-*   **9:00 PM:** 63°F, Clear, 0% precipitation, 84% humidity, 1 mph wind.
-*   **10:00 PM:** 62°F, Clear, 0% precipitation, 86% humidity, 1 mph wind.
-*   **11:00 PM:** 62°F, Clear, 0% precipitation, 87% humidity, 0 mph wind.
-
-**Tomorrow (Sunday):**
-The high will be 82°F and the low will be 58°F. It will be Sunny with a 10% chance of precipitation, 59% humidity, and winds at 8 mph.
+Here's the forecast for the coming days:
+*   **Monday:** Sunny, with a high of 76°F and a low of 66°F. Winds at 7 mph and 10% precipitation.
+*   **Tuesday:** Sunny, with a high of 80°F and a low of 67°F. Winds at 8 mph and 0% precipitation.
+*   **Wednesday:** Cloudy, with a high of 78°F and a low of 69°F. Winds at 6 mph and 20% precipitation.
+*   **Thursday:** Mostly sunny, with a high of 76°F and a low of 68°F. Winds at 7 mph and 5% precipitation.
+*   **Friday:** Partly cloudy, with a high of 76°F and a low of 68°F. Winds at 6 mph and 5% precipitation.
+*   **Saturday:** Sunny, with a high of 77°F and a low of 67°F. Winds at 7 mph and 0% precipitation.
+*   **Sunday:** Mostly sunny, with a high of 75°F and a low of 65°F. Winds at 5 mph and 5% precipitation.
