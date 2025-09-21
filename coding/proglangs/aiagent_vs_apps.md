@@ -6,20 +6,20 @@ Living in San Diego, I enjoy learning to surf. Looking for perfect weather condi
 
 Then I decided to write a Python App to do those for me, and inform me if both the air and water temperatures are above my personal thresholds (76°F and 69°F).
 
-**Gemini CLI** wrote a Python method, which relies on **SerpApi** for retrieving and extracting the weather forecast, but it did not work. To achieve those tasks, the code depends on specific **keys** in the retrieved data (Python dict or JSON). To debug, I outputted the data into a JSON file, and scrolled down the huge file. Turns out that the key-structure is complex and different from those assumed by Gemini CLI.
+**Gemini CLI** wrote a Python method, which relies on **SerpApi** for retrieving search data, with additional code to extract the weather forecast, but it did not work. To extract forecast info, the code depends on specific **keys** in the retrieved data (Python dict or JSON). To debug, I outputted the data into a JSON file, and scrolled down the huge file. Turns out that the key-structure is complex and different from those assumed by Gemini CLI.
 
-With detailed key info, I was able to get the code to work. Working out all the details, I finally extracted the forecast.
+With detailed key info, I was able to get the code to work. Working out all the details, I finally extracted the forecast info.
 
-After a few days, the code stopped working. The data I pored over had Celsius and PM, as examples, while the new data had Fahrenheit and p.m.! Simply speaking, the data is dynamic!
+After a few days, the code stopped working. The data I previously pored over had Celsius and PM, for examples, while the new data had Fahrenheit and p.m.! To put it simply, the retrieved data is NOT static!
 
-At this point, I decided to give AI agents a try. My weather AI agent is posted on [Github](https://github.com/qiangliu-sd/ai-agent-LangGraph).
+At this point, I decided to give AI agents a try.
 
-Basically, I defined two Google searches via SerpApi as *tools* (i.e., Py-methods in my case) and handed them to **Gemini 2.5 Flash** (the LLM I used, or the *brain* of my agent). By definition, **a LLM with tools is called an AI agent**.
+Basically, I defined two Google searches via SerpApi as *tools* (i.e., Py-methods in my case) and binded them to the agent. The *brain* of my agent is **Gemini 2.5 Flash** (i.e., the LLM I used). By definition, **a LLM with tools is called an AI agent**.
 
-After I gave it the prompt, Gemini handled all the tool calls ([Notes on tool coding](#aa-tools))and the details of information extraction, without any of my coding!
+After I gave the prompt to my agent, Gemini decided which tool to call ([Notes on tool coding](#aa-tools)). More importantly, Gemini extracts the information for me on its own, without depending on any of my code! My weather AI agent is posted on [Github](https://github.com/qiangliu-sd/ai-agent-LangGraph).
 
-I tested prompts progressively. The agent worked very well for me. The five prompts and truncated replies are list below:
-1. *weather forecast Poway, California* ([click to see the reply](texts/weather_forecast.txt))
+I tested prompts progressively. The agent worked very well for me. The five prompts and truncated answers are list below:
+1. *weather forecast Solana Beach, California* ([click to see the reply](texts/weather_forecast.txt))
 2. *weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/weather_forecast_water.txt))
 3. *hourly weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/hourly_forecast_water.txt))
 4. *3 PM weather forecast, water temperature, Solana Beach California* ([click to see the reply](texts/3PM_forecast_water.txt))
