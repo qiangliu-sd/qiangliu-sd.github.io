@@ -3,9 +3,9 @@
 
 I like **Tkinter** because it is distributed with Python as the **standard interface**. To make it work well, customizations are necessary, however.
 
-For my own project, I found it is helpful to have free-standing (non-blocking) message box and pop-up (and pop-off) message box.
+For my own project, it is helpful to have free-standing (non-blocking) message box and pop-up (and pop-off) message box.
 
-Since they are not easily available online, I have to implement them myself, which I share in this article.
+Since they are not readily available online, I have to implement them myself, which I share in this article.
 
 ### Free-standing (non-blocking) message box
 Tkinter built-in `messagebox` is blocking. This isn't nice for at least two situations.
@@ -41,21 +41,21 @@ messagebox.showinfo(argv[1], argv[2])
 
 ### Pop-up (and pop-off) message box
 
-A fleeting pop-up and pop-off message box can be helpful in two situations. First, you can send a message without bothering a user to click anything. Second, you can take the focus from the active widget (for example, an `Entry`) automatically. This can be useful in forcing the validation of user input that may be left in an invalid state (see my GitHub Repo [Enforced Tkinter-validating](https://github.com/qiangliu-sd/enforcedDynaPyTkValid)).
+A fleeting pop-up and pop-off message box can be helpful in two situations. First, you can send a message without bothering a user to click anything. Second, you can automatically take the focus away from the active widget (for example, an `Entry`). This can be useful in forcing the validation of user input that may be left in an invalid state (see my GitHub Repo [Enforced Tkinter-validating](https://github.com/qiangliu-sd/enforcedDynaPyTkValid)).
 ```
 def fleetingPopup(info='I take focus!', out_millisec=20):
     """Show for 20 milliseconds and disappear"""
-    from tkinter import Label, Tk
+    from tkinter import Tk
     myWin = Tk()
-    myWin.title("Focus Taker")
-    myWin.geometry("250x60")
-    msg = f'\n<I will disapear in {out_millisec*0.001} seconds>'
-    Label(myWin, text=f"{info}{msg}", fg="red",bd=2).pack(pady=15)
+    myWin.withdraw()    
     try:
         myWin.after(out_millisec, myWin.destroy)
-        myWin.mainloop()
-    except Exception as xcp: pass
+        from tkinter import messagebox
+        messagebox.showinfo('DONT click OK-Button', info, master=myWin)
+    except Exception: pass
 ```
+Also, see [note](#Note) at the end.
+
 ### Two different built-in buttons
 
 `tkinter.ttk` widgets may have better appearances than `tkinter`. As an example, `ttk.Button` looks nicer than `tkinter.Button`. Remember to use **ttk** whenever possible:
@@ -78,4 +78,21 @@ class StatusBar:
  
     def init(self):
         self.label.config(text = "Status: Ready")
+```
+### Note
+<a name="Note"></a>
+The following function does NOT work inside a Button click, probably due to messing with the focus of the Button-GUI:
+```
+def fleetingPopupNO(info='I take focus!', out_millisec=20):
+    "Show for 20 milliseconds and disappear."
+    from tkinter import Label, Tk
+    myWin = Tk()
+    myWin.title("Focus Taker")
+    myWin.geometry("250x60")
+    msg = f'\n<I will disapear in {out_millisec*0.001} seconds>'
+    Label(myWin, text=f"{info}{msg}", fg="red",bd=2).pack(pady=10)
+    try:
+	myWin.after(out_millisec, myWin.destroy)
+	myWin.mainloop() # with or without this statement
+    except Exception: pass
 ```
