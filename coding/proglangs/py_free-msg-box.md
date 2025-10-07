@@ -62,6 +62,8 @@ Also, see [note](#Note) at the end.
 
 ![tkinter.Button vs. ttk.Button](images/two_buttons.png)
 
+If the Button click event depends on a selected (active) widget, however, be sure to use `tkinter.Button`, becuase `ttk.Button` will take the focus and become the active widget itself.
+
 ### My own status bar
 There is no built-in status-bar in Tkinter. It is quite simple to define one for your own use with `class`. See the following:
 ```
