@@ -7,7 +7,7 @@ For my own project, it is helpful to have free-standing (non-blocking) message b
 
 Since they are not readily available online, I have to implement them myself, which I share in this article.
 
-### Free-standing (non-blocking) message box
+### Free-standing (non-blocking) message box in Python
 Tkinter built-in `messagebox` is blocking. This isn't nice for at least two situations.
 
 First, you want to send a message, but you need the App to run without stopping (i.e., **non-blocking**). Second, you want your message to stay after a (scheduled) task is finished (i.e., **free-standing** and of course, non-blocking).
@@ -38,8 +38,16 @@ from tkinter import messagebox
 messagebox.showinfo(argv[1], argv[2])
 
 ```
+### Trully free-standing message box
+Unfortunately, the above freeMsgBox need Python to be installed. Further, when compiled by **Nuitka**, it no longer works! What is needed is a trully independent free-standing message box.
 
-### Pop-up (and pop-off) message box
+Well, you can compile qlMsgBox.py into an executable. And this is what I did. Unfotunately, the resultant executable is huge, with a size of over 8 MB!
+
+So I asked Copilot for a Windows based C++ version. After several tries, I have a workable one, with a size of merely 11 KB see [qlMsgBox.exe](https://github.com/qiangliu-sd/life-events-organizer), which can be called directly via subprocess.
+
+Unlike Wondows, Linux does not have a native C++ GUI.
+
+### Pop-up (and pop-off) message box.
 
 A fleeting pop-up and pop-off message box can be helpful in two situations. First, you can send a message without bothering a user to click anything. Second, you can automatically take the focus away from the active widget (for example, an `Entry`). This can be useful in forcing the validation of user input that may be left in an invalid state (see my GitHub Repo [Enforced Tkinter-validating](https://github.com/qiangliu-sd/enforcedDynaPyTkValid)).
 ```
