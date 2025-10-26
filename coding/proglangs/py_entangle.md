@@ -11,13 +11,13 @@ def append_list(big_n=80000):
         test = test + [j]
     return len(test)
 ```
-On a Windows 11 with ten cores and twelve logical processors, I run *append_list*() under *joblib.Parallel* with one task - one job (thread) to ten tasks - ten jobs (threads) on average. The [running times](#Note1) (in seconds) in Column 5, which confirm those of the article, are shown in the following table. The run-time of ten tasks - ten jobs is eleven times that of one task - one job, which means that Python parallel fails completely. For five or fewer jobs, though, parallel runs require less execution time. The total size of lists used in tasks or jobs is reported in Column 2 to ensure that the lists are appended correctly.
+On a Windows 11 with ten cores and twelve logical processors, I run `append_list()` under `joblib.Parallel` with one task - one job (thread) to ten tasks - ten jobs (threads) on average. The [running times](#Note1) (in seconds) in Column 5, which confirm those of the article, are shown in the following table. The run-time of ten tasks - ten jobs is eleven times that of one task - one job, which means that Python parallel fails completely. For five or fewer jobs, though, parallel runs require less execution time. The total size of lists used in tasks or jobs is reported in Column 2 to ensure that the lists are appended correctly.
 
 ![Table 1: Python one task per job](images/tab1Py-entangle.png)
 
 Unbelievably, the parallel entanglement exists across different processors or independent Python instances (Column 6). How did I do that? *I launched Python processes (i.e., python.exe) asynchronously using Start-Process (and timing the execution time of all the Python instances via Wait-Process) in a PowerShell script*. What I did was roughly OS parallelism. Surprisingly, the independent Python instances also interact with one another or seem to be entangled.
 
-Knowing that C++ extensions are much faster than Python (see [Can Python Outperform C++?](ql_md_template.html?my.md=coding/proglangs/can_py_beat_cpp.md)), I decided to give C++ a try. Translating *append_list*() into C++, I append elements to a vector and then copy the resultant vector explicitly ([to simulate the list assignment or copying in Python](#Note2)) as follows:
+Knowing that C++ extensions are much faster than Python (see [Can Python Outperform C++?](ql_md_template.html?my.md=coding/proglangs/can_py_beat_cpp.md)), I decided to give C++ a try. Translating `append_list()` into C++, I append elements to a vector and then copy the resultant vector explicitly ([to simulate the list assignment or copying in Python](#Note2)) as follows:
 
 ```
 int cppAppendVector(int big_n=80000)
@@ -31,7 +31,7 @@ int cppAppendVector(int big_n=80000)
    return iv.size();
 }
 ```
-Similarly, I run *cppPy_appvec*(), the Python version of *cppAppendVector*() (compiled with the **Py -m build** command on Windows 11 with 64-bit Python v3.12), under *joblib.Parallel*. The following three tables summarize the running times (in seconds) for one task per job, 10 tasks per job, and 100 tasks per job on average.
+Similarly, I run `cppPy_appvec()`, the Python version of `cppAppendVector()` (compiled with the **Py -m build** command on Windows 11 with 64-bit Python v3.12), under `joblib.Parallel`. The following three tables summarize the running times (in seconds) for one task per job, 10 tasks per job, and 100 tasks per job on average.
 
 ![Table 2: C++ one task per job](images/tab2Py-entangle.png)
 
@@ -51,4 +51,4 @@ To conclude, **C++ extensions can be an excellent solution to the problem of Pyt
 Repeated executions of Python may show wildly different running times. The times reported in this article are from single runs.
 
 <a name="Note2"></a>
-```test = test + [j]``` in the original Python function *append_list*() is inefficient, while ```test += [j]``` can run five times fast.
+`test = test + [j]` in the original Python function `append_list()` is inefficient, while `test += [j]` can run five times fast.
