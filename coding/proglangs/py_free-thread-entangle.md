@@ -36,7 +36,7 @@ Surprisingly, even the free threading build with GIL enabled at runtime can be f
 <a name="Note"></a>
 It took me some time to install and run free threading correctly. For your convenience, I summarize the main points below:
 1. With **python-3.14.0-amd64.exe**, be sure to check **Download free-threaded binaries** to install the free threading build.
-2. Check the installation first. For me, **py** points to 3.14t (i.e., free threading build), while **python** to 3.14 (i.e., GIL build).
+2. Check the installed version first, by typing py or python. For me, **py** points to 3.14t (i.e., free threading build), while **python** to 3.14 (i.e., GIL build).
 3. To run 3.14t with GIL disabled at runtime:
 > py -Xgil=0 myScript.py
 
