@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PyScript Working Example</title>
+
+<!-- Recommended meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <!-- PyScript CSS -->
+		<link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css" />
+        <!-- This script tag bootstraps PyScript -->
+        <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
+    </head>
+<body>
+  <h1>PyScript in HTML</h1>
+  <p>A working example with: input-box, button, and Py-method
+  
+  <p>Your city: <input type="text" id="city" placeholder="Enter your city" /></p>
+  <p>Your name: <input type="text" id="name" placeholder="Enter your name" /></p>
+
+  <button id="run-btn" py-click="greeting">Run Python</button>
+
+  <p id="output" style="color: red;"></p>
+
+  <!-- Python method that runs on button click -->
+  <py-script>
+from pyscript import document
+
+def greeting(event):
+	my_msg = f"Hello, {document.querySelector("#name").value} from {document.querySelector("#city").value}!"
+	my_element = document.querySelector("#output")
+	my_element.innerHTML = my_msg
+
+  </py-script>
+
+</body>
+</html>
