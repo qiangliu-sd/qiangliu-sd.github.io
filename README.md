@@ -11,7 +11,7 @@ Features:
 - Save to a file
 
 Know-how:
-- Click   &nbsp;&nbsp;&nbsp;&nbsp;    https://qiangliu-sd.github.io/mdEditView.html   &nbsp;&nbsp;&nbsp;&nbsp;    and **bookmark** it
+- Click   &nbsp;&nbsp;&nbsp;&nbsp;    https://qiangliu-sd.github.io/md/mdEditView.html   &nbsp;&nbsp;&nbsp;&nbsp;    and **bookmark** it
 
 
 ## View your markdown file via a browser
@@ -23,7 +23,7 @@ When I searched for a **FREE** markdown viewer, I failed to find one free and si
 So I asked **Copilot** to write one. And here it is. Enjoy!
 
 Know-how:
-- Click &nbsp;&nbsp;&nbsp;&nbsp; https://qiangliu-sd.github.io/markdownView.html &nbsp;&nbsp;&nbsp;&nbsp; and **bookmark** it
+- Click &nbsp;&nbsp;&nbsp;&nbsp; https://qiangliu-sd.github.io/md/markdownView.html &nbsp;&nbsp;&nbsp;&nbsp; and **bookmark** it
 
 ## My personal webpage
 	My work on coding, derivatives, and other topics in one place
