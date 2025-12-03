@@ -11,9 +11,14 @@ async function fetchMarkdown(url) {
   }
 }
 
-async function loadAndRenderMarkdown(he_id, url_md) {
+async function loadAndRenderMarkdown(title_id, he_id, url_md) {
   const mdText = await fetchMarkdown(url_md);
   const mdHtml = marked.parse(mdText);
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(mdHtml, "text/html");
+	const h1 = doc.querySelector("h1");
+      
+  document.getElementById(title_id).textContent = h1?.textContent;
   document.getElementById(he_id).innerHTML = mdHtml;
 }
 
@@ -26,3 +31,4 @@ function getUrlParams() {
 	}
 	return params;
 }
+

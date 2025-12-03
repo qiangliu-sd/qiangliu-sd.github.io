@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>QLiu Html Template for Markdown</title>
+	<title id="mdTitle"></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- base href="http://localhost:8000/" target="_blank">
@@ -22,8 +22,9 @@
 	const mdPath = urlParam['my.md'];
 	
     // Auto-load server Markdown: mdPath = 'econ/cryptoccy/stablecoin.md'
+	// set 'mdTitle' and 'markdownOut' inside
     window.addEventListener('DOMContentLoaded', () => {
-        loadAndRenderMarkdown('markdownOut', mdPath);
+        loadAndRenderMarkdown('mdTitle','markdownOut', mdPath);
     });
   </script>
 </body>
