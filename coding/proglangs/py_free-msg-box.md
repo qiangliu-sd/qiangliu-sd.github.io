@@ -43,7 +43,7 @@ Unfortunately, the above freeMsgBox need Python to be installed. Further, when c
 
 Well, you can compile qlMsgBox.py into an executable. And this is what I did. Unfotunately, the resultant executable is huge, with a size of over 8 MB!
 
-So I asked Copilot for a Windows based C++ version. After several tries, I have a workable one, with a size of merely 11 KB see [qlMsgBox.exe](https://github.com/qiangliu-sd/life-events-organizer), which can be called directly via subprocess.
+So I asked Copilot for a Windows based C++ version. After several tries, I have a workable one, with a size of merely 11 KB see [qlMsgBox.exe](https://github.com/qiangliu-sd/life-events-organizer/tree/main/qlcpp), which can be called directly via subprocess.
 
 Unlike Wondows, Linux does not have a native C++ GUI.
 

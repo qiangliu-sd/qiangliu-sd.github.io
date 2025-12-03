@@ -49,7 +49,7 @@ Sample json entries look like this:
 "par_nominal": ["Conv-bond par", "100","positive","plus"],
 "maturity": ["CB mature date", "3/2/2026", "date_fmt","date_us"],
 "convert_cash": ["Cash amount in convert", "0", "not_neg","non_minus"],
- "afv_eta":["Ratio of stock price jump at default (AFV)", "0", "afv_eta", "btw_0_1"],
+"afv_eta":["Ratio of stock price jump at default (AFV)", "0", "afv_eta", "btw_0_1"],
 ```
 You can pass in the validate-code, btw_0_1, as valid_code and extract the bound [0,1] inside as:
 ```
