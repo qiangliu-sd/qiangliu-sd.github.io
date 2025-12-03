@@ -1,4 +1,4 @@
-# What's Wrong with Code Written by AI?
+# What's Wrong with Code Written by AI: Part 1?
     Bad styles, bad implementation, inefficient double loops, and other issues
 
 With the following prompt to [Gemini CLI](#Notes):
@@ -6,7 +6,9 @@ With the following prompt to [Gemini CLI](#Notes):
 
 Gemini created *match_and_sum_universities.py*, executed it and produced *matched_universities.txt*. The good news is that Gemini did it quickly, and the result seems to be OK.
 
-The *bad* news is that the code in [match_and_sum_universities.py](texts/match_and_sum_universities.py) is bad with many potential problems -- Well, I am fully aware that *my prompt is poorly written*. Simply put, the AI code is **not ready for reuse** and will be **challenging to maintain** in the future.
+The *bad* news is that the code in [match_and_sum_universities.py](texts/match_and_sum_universities.py) is bad with many potential problems. Simply put, the AI code is **not ready for reuse** and will be **challenging to maintain** in the future.
+
+Well, I am fully aware that *my prompt is poorly written*. It is important to know that AI does not automatically give you good code. This is the point!
 
 ### Bad styles
 1. Hardcoded file names and constants. Such as `similarity_threshold = 85` (Line 80). The **magic 85** turns out to be [problematic](#Notes) as well.
@@ -111,3 +113,5 @@ The project was initially done on Nov. 26, 2025. The Gemini CLI used probably th
 - Total Score: 2.00 | File 1: Technische Hochschule München (1.00) | File 2: Landwirtschaftliche Hochschule (Agricultural College), Berlin, Germany (1.00) (Similarity: 86%)
 
 Furthermore, my more efficient code yielded significantly different results. After setting the threshold to **88**, I obtained identical results with the two scripts.
+
+(December 2, 2025)
