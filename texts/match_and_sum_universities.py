@@ -112,4 +112,4 @@ with open(output_file, 'w', encoding='utf-8') as f:
     for match in matches:
         f.write(f"Total Score: {match['total_score']:.2f} | File 1: {match['univ1_name']} ({match['univ1_score']:.2f}) | File 2: {match['univ2_name']} ({match['univ2_score']:.2f}) (Similarity: {match['similarity']}%)\n")
 
-print(f"Done in {end_tm-start_tm} seconds")
+print(f"Done.")
