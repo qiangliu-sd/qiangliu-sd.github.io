@@ -10,7 +10,7 @@ Importantly, it is up to the user to utilize AI to achieve her goals -- the qual
 My prompts and Gemini CLI's responses (indicated by ✦) are recorded below.
 
 create a style file based on [qlMatchNSumUnivsMain.py](texts/qlMatchNSumUnivsMain.py) for future use:
-- [python_style_guide.md](python_style_guide.md) created
+- [python_style_guide.md](texts/python_style_guide.md) created
 
 analyse [what-wrong-w-ai-codes.md](ql_md_template.html?my.md=coding/proglangs/what-wrong-w-ai-codes.md) and update the style file
 
