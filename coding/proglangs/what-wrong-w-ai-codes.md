@@ -1,4 +1,4 @@
-# What's Wrong with Code Written by AI: Part 1?
+# What Can Be Wrong With Code Written By AI: Part 1?
     Bad styles, bad implementation, inefficient double loops, and other issues
 
 With the following prompt to [Gemini CLI](#Notes):
@@ -94,7 +94,7 @@ Finally, the `univ2 = next(...)` statement (Line 88) will be unnecessary, if `pa
 
 ### Notes:
 <a name="Notes"></a>
-The project was initially done on Nov. 26, 2025. The Gemini CLI used probably the Gemini-2.5 model.
+The project was initially done on Nov. 26, 2025. The Gemini CLI used the Gemini-2.5 model.
 
 *doc-univ_counts.txt* contains lines such as:
 - Columbia University: 24
