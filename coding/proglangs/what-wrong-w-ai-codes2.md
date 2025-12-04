@@ -76,4 +76,10 @@ can you try again to speed it up
 
 That's the end of my Gemini CLI session.
 
-The new [universityMatchingUtils.py](texts/universityMatchingUtils.py) written by Gemini is better, but still have minor issues. Notably, the issue of Multiple indentations was overlooked by Gemini.
+### What is wrong with the new code?
+The new [universityMatchingUtils.py](texts/universityMatchingUtils.py) written by Gemini is better, but unfortunately, Gemini introduced several bad implementations.
+1. Gemini collected all information, such as data filenames, into `getConfig()` that returns a `dict`. This is bad, because filenames are not config parameters. Further, a hardcoded `dict` is better created directly.
+2. Gemini included `getConfig()` in *universityMatchingUtils.py*. Filenames and other run-time info shall be placed in the main script.
+3. The config-dict is passed into two functions as an argument. This is really bad for two reasons. It is unclear what is passed in. Worse, dict-keys are hardcoded inside function bodies.
+
+There are minor issues as well. Notably, multiple indentations are still present. A local variable, `best_match`, does not follow my style. Local variables, such as `match, choices, matches`, are bad. 
