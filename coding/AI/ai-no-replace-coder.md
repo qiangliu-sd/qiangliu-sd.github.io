@@ -29,7 +29,7 @@ When I tried to learn PyScript for HTML, I asked Copilot to
 
 Copilot failed to provide a working example after almost **ten** tries.
 
-Eventually, I made it to work on my own after searching online without finding any examples. So I put this simple [PyScript in HTML](https://github.com/qiangliu-sd/web) on GitHub.
+Eventually, I made it to work on my own after searching online without finding any examples. So I posted this simple [PyScript in HTML](coding/proglangs/PyScript.html) online.
 
 When I used it to check weather, Gemini offered me an HTML with real-time data via Gemini API with Google Search and JavaScript. After **seven iterations with 14 tries** without success, I gave up on Gemini. Gemini confessed as follows, and I quote Gemini here directly:
 
