@@ -15,7 +15,7 @@
 ### Bad implementation
 1. *match_universities.py* is very verbose (339 lines of code), tripling the lines of code of *match_and_sum_universities.py* (115 lines of code).
 2. Defining a `dict` inside `normalize_name()`, which is hard to maintain.
-3. Defining a file-level dict, MANUAL_MAPPINGS, to map *XYZ University* to *University of XYZ*. This makes sense and is what AI excels at. Unfortunately, such mapping is better placed in a data file. Furthermore, entries such as `"University of Texas, Austin": "University of Texas"` may lead to miscounts. Worse, entries like `"University of California, Irvine": "University of California, Irvine"` are erronous.
+3. Defining a file-level dict, MANUAL_MAPPINGS, to map *XYZ University* to *University of XYZ*. This makes sense and is what AI excels at. Unfortunately, such mapping is better placed in a data file. Furthermore, entries such as `"University of Texas, Austin": "University of Texas"` may lead to miscounts. Worse, entries like `"University of California, Irvine": "University of California, Irvine"` are erroneous.
 4. Defining two functions to read in two data files, but returning two different data objects. The repetition may be unnecessary.
 5. Reinvent the wheel and hard to follow: `find_best_match()` and `find_best_match_with_score()`.
 
