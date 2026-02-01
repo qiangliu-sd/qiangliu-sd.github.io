@@ -1,6 +1,6 @@
 # Python Parallel Entanglement: Final Note
-    C++ is faster than Python
-    Parallelism in C++ is better
+    C++ is over one order of magnitude faster than Python
+    Parallelism in C++ is almost twice as fast
 
 As [Python Parallel Entanglement: A C++ Solution](ql_md_template.html?my.md=coding/proglangs/py_entangle.md) and [Does Free Threading Solve Parallel Entanglement?](ql_md_template.html?my.md=coding/proglangs/py_free-thread-entangle.md) show, Python slows down when running in Parallel and C++ can do much better. My final question is, can we do better within Python or C++ separately?
 
