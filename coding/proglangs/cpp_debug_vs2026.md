@@ -8,21 +8,21 @@ Let's follow the trail.
 
 Compiling a static library for my binomial tree method, I got the following errors:
 
-![binomial lib](bt-lib.png)
+![binomial lib](images/bt-lib.png)
 
 With **429** errors that mostly point to the std library, such as `functional` and `list`, those error messages were not helpful at all.
 
 The IDE showed that the virtual base class `PricingMethod` was underlined:
 
-![pricing method](pricingmethod.png)
+![pricing method](images/pricingmethod.png)
 
 I checked `PricingMethod` carefully and found it was defined and properly included. In its constructor, the class name `DerivativeFactory` was underlined, however:
 
-![deriv-factory](deriv-factory.png)
+![deriv-factory](images/deriv-factory.png)
 
 Now opening up `DerivativeFactory`, I saw the class `Convertible` was underlined:
 
-![conv-bond](convbond.png)
+![conv-bond](images/convbond.png)
 
 Checking `Convertible`, nothing seemed to be wrong. So it was a dead end.
 
@@ -34,7 +34,7 @@ What else can be wrong? Well, `DerivativeFactory` includes only three header fil
 ```
 After commenting out `Convertible.h` and `CBParameters.h`, I was looking at `OptionFactory.h`:
 
-![opt-factory](opt-factory.png)
+![opt-factory](images/opt-factory.png)
 
 A first glance did not show any problem with `OptionFactory.h`. Going line by line, I noticed that the **braces** (or **curly brackets**) did not match up because one right brace was missing. After adding the missing brace, I was able to compile without problems.
 
