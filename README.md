@@ -1,45 +1,38 @@
-# CMake with Visual Studio 2026: Working Samples and Guide
-    Compile static-lib and exe-App under one project
+# Edit and View README.md in a Browser
+	An extremely simple markdown editing and rendering tool for GitHub
+ 
 
-In Visual Studio 2026, **Property Sheet** (a .props file), which was an important and useful feature of earlier Visual Studios, is not needed for CMake Project, which does not depend on .sln or .vcxproj files and is cross platform.
+## Edit your markdown file in a browser
 
-CMake Project utilizes **CMakeLists.txt** and CMakePresets.json files for C++ compiling setings. You can download them, edit and use for your own purpose.
+Features:
+- Edit a markdown file in a browser
+- View it on the right as you type
+- Copy to clipboard
+- Save to a file
 
-### Dir structure
-My C++ codes are under dir(C++):
+Know-how:
+- Click   &nbsp;&nbsp;&nbsp;&nbsp;    https://qiangliu-sd.github.io/mdEditView.html   &nbsp;&nbsp;&nbsp;&nbsp;    and **bookmark** it
 
-![dir(C++)](images/C++dir.png)
 
-I put common definitions in [CommonQL.cmake & AfterBuild.cmake](#Notes).
+## View your markdown file via a browser
 
-My CMake Project **utility** under dir(C++) is:
+On GitHub, **README.md** is everywhere. If you edit a markdown file locally, you probably want to view it before pushing it onto GitHub.
 
-![folder(utility)](images/utilityDir.png)
+When I searched for a **FREE** markdown viewer, I failed to find one free and simple. The markdown viewers on both *Notepad++* and *VS Code* are not friendly to use, unfortunately.
 
-You need both **CMakeLists.txt** and **CMakePresets.json**.
+So I asked **Copilot** to write one. And here it is. Enjoy!
 
-My test sub-project **unitTest** (and static-lib sub-project **zutility**) under dir(utility) is shown below:
+Know-how:
+- Click &nbsp;&nbsp;&nbsp;&nbsp; https://qiangliu-sd.github.io/markdownView.html &nbsp;&nbsp;&nbsp;&nbsp; and **bookmark** it
 
-![folder(unitTest)](images/unitTestDir.png)
+## My personal webpage
+	My work on coding, derivatives, and other topics in one place
 
-You need the **CMakeLists.txt** under both unitTest and zutility.
+Features:
+- **index.html** is generated from JSON with Python written by **Gemini CLI**
+- Certain pages are generated from **ql_md_template.html** with a markdown file as the URL Parameter
 
-### Compile static library & executable
-1. Start VS2026 and choose "Open a folder." In my case, I choose **utility**, and see **Folder View** on the right:
+Know-how:
+- URL of my webpage &nbsp;&nbsp;&nbsp;&nbsp; https://qiangliu-sd.github.io
 
-![folder view](images/FolderView.png)
 
-2. Right-click anywhere in Folder View and choose "Switch to CMake Targets View" and the following shows up:
-
-![CMake Targets view](images/CMakeView.png)
-
-3. Right-click **MyLib_static (static library)** and choose "Build MyLib_static" to compile the LIB.
-
-4. Right-click **qlLIBMain (executable)** and choose "Build qlLIBMain" to compile the EXE.
-
-### Notes
-
-Dir(C++) here contains three files:
-- CommonQL.cmake
-- AfterBuild.cmake<a name="Notes"></a>
-- get-cpp-fnames.ps1: used to obtain the .cpp list in **zutility/CMakeLists.txt**
