@@ -4,7 +4,7 @@
 ### CB business logic
 A convertible bond is a corporate debt that can be converted by the CB holder to the public traded stock of the CB issuer.
 
-CB clauses or embedded choices (options) in the order of seniority:
+CB clauses or choices (i.e., embedded options) in the order of seniority:
 1. Put (or hard-put). CB holder can return the CB to the issuer for cash.
 2. Provisional Put (or soft-put). CB holder's conditional put.
 3. Convert. CB holder can convert the CB to stock.
@@ -17,7 +17,13 @@ Notes:
 3. Soft-put: Uncommon in the US, but common in China.
 
 ### CB Pricing
-A CB can be priced by solving the Black-Scholes-Merton or [Ayache-Forsyth-Vetzal](#afv) PDE via finite difference method.
+In its simplest form, a CB can be converted to the stock or worth the par value at maturity. Therefore, the payoff is either S(T) or Par, whichever is greater (assume a conversion ratio of one). In math notation,
+```
+payoff = max[S(T), Par] = max[S(T)-Par, 0] + Par
+```
+which is a portfolio of a call option with Par as the strike price and a zero-coupon bond. In this case, the value of CB is the sum of prices of European call and zero-coupon bond.
+
+Hence, a CB can be priced by solving the Black-Scholes-Merton or [Ayache-Forsyth-Vetzal](#afv) PDE via finite difference method.
 
 Provisional Call (Put), embedded choice to the issuer (holder) that conditional on the past close prices of the underlying stock, are difficult to handle. For example, a 20 out of 30 provisional call will be satified if in the past 30 trading days, the stock closed above a specific trigger price in 20 or more days. Approximations, such as [conditianl range probability (CRP)](#crp) or [auxiliary reversed binomial-tree (ARB)](#arb), can be utilized.
 
