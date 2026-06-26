@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>QLiu Works</title>
+    <link rel="icon" type="image/jpg" href="images/ql.jpg">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- link data-trunk rel="copy-file" href="assets/NotoSansSC-Regular.ttf" / -->
+
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+        }
+
+        canvas {
+            width: 400px;
+            height: 600px;
+        }
+    </style>
+<link rel="modulepreload" href="utils/calendar_egui_web-eaf7114b6ea38427.js" crossorigin="anonymous" integrity="sha384-89HjKsgVPR+cvP3Y2vaj/YGJLiVydww6LExa7PWjDzHZoSv9uhmvlr/c+ROAdeWn"><link rel="preload" href="utils/calendar_egui_web-eaf7114b6ea38427_bg.wasm" crossorigin="anonymous" integrity="sha384-laN1WM59UUmdMYugQRYI54vhJbAPYk8PsZK4OlkAhWcTfnzuHBipThWWciPb4gED" as="fetch" type="application/wasm"></head>
+
+<body>
+    <canvas id="the_canvas_id" width="400" height="600"></canvas>
+
+<script type="module">
+import init, * as bindings from 'utils/calendar_egui_web-eaf7114b6ea38427.js';
+const wasm = await init({ module_or_path: 'utils/calendar_egui_web-eaf7114b6ea38427_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script></body>
+
+</html>
