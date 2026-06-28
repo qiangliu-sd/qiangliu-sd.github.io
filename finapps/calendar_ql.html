@@ -6,7 +6,8 @@
     <link rel="icon" type="image/jpg" href="https://qiang-liu.com/images/ql.jpg">
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <!-- link data-trunk rel="copy-file" href="assets/NotoSansSC-Regular.ttf" / -->
 
     <style>
@@ -25,14 +26,14 @@
             height: 100%;
         }
     </style>
-<link rel="modulepreload" href="https://qiang-liu.com/finapps/calendar_egui_web-da697e2e92d994ca.js" crossorigin="anonymous" integrity="sha384-c+EOKrYN7pw5ERyN49f7KmJraTw+Fhgsmwduvau2XOctccMp3h58FbkK8xvnbEc1"><link rel="preload" href="https://qiang-liu.com/finapps/calendar_egui_web-da697e2e92d994ca_bg.wasm" crossorigin="anonymous" integrity="sha384-BtlbHxDRW44O1Vzou6u1lAne9M/vyPA0tt208wSqVBTW2RizAyQeAS3Onq2cq9EJ" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="https://qiang-liu.com/finapps/calendar_egui_web-33ad189a5e22580d.js" crossorigin="anonymous" integrity="sha384-c+EOKrYN7pw5ERyN49f7KmJraTw+Fhgsmwduvau2XOctccMp3h58FbkK8xvnbEc1"><link rel="preload" href="https://qiang-liu.com/finapps/calendar_egui_web-33ad189a5e22580d_bg.wasm" crossorigin="anonymous" integrity="sha384-+ARxaGlzE3njDjR9TUc0pqQX4MZKpo3JAtZnZpoXyF8wBU96NR2+bHfzyddl7tA9" as="fetch" type="application/wasm"></head>
 
 <body>
     <canvas id="ql_web_canvas"></canvas>
 
 <script type="module">
-import init, * as bindings from 'https://qiang-liu.com/finapps/calendar_egui_web-da697e2e92d994ca.js';
-const wasm = await init({ module_or_path: 'https://qiang-liu.com/finapps/calendar_egui_web-da697e2e92d994ca_bg.wasm' });
+import init, * as bindings from 'https://qiang-liu.com/finapps/calendar_egui_web-33ad189a5e22580d.js';
+const wasm = await init({ module_or_path: 'https://qiang-liu.com/finapps/calendar_egui_web-33ad189a5e22580d_bg.wasm' });
 
 
 window.wasmBindings = bindings;
