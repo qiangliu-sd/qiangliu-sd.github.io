@@ -8,6 +8,8 @@ The App with GUI allows you to specify the option type, the underlying type, the
 
 The App with GUI will output price, delta, and gamma or implied volatility and can [be downloded from GitHub](https://github.com/qiangliu-sd/option-pricer).
 
+Even better, you can [price options on your phone](https://qiang-liu.com/ql_opt_px/index.html).
+
 ### Option supported:
 - American
 - European
@@ -37,4 +39,4 @@ ONE dividend or multiple dividends
 <a name="bda"></a>
 For BDA, see: [A simple accurate binomial tree for pricing options on stocks with known dollar dividends, Journal of Derivatives](https://www.proquest.com/openview/2be03fbe6deff07a799f6bb7bd93405b/1?pq-origsite=gscholar&cbl=32822)
 
-Put can be priced as call in DUAL-space by simply *swapping stock price (dividend yield) for strike price (risk-free rate) simultaneously*. See: [The Black-Scholes-Merton dual equation](http://arxiv.org/abs/1912.10380) Try this out using the App!
+Put can be priced as call in DUAL-space by simply *swapping stock price (dividend yield) for strike price (risk-free rate) simultaneously*. See: [The Black-Scholes-Merton dual equation](http://arxiv.org/abs/1912.10380). Try this out using the App!
