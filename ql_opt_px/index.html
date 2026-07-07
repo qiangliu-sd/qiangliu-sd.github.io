@@ -1,23 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html — option pricer web UI.
-     Step 3: form generated from wasm/option.json + KV serializer.
-     Step 4: conditional field visibility, results panel with Price/IV
-             toggle, pricing in a Web Worker (worker.js).
-     Serve over http:  python -m http.server 8080   (or: emrun index.html)
-
-     Form: built at runtime from wasm/option.json — keys are the C++ param
-     names; [caption, default, tooltip, validator] -> input; [caption,
-     [choices]] -> select; empty caption -> hidden but serialized; gkey_*
-     caption-only -> section separator, other gkey_* are desktop-GUI info
-     (results/mode handled by this page directly).
-     Serializer: KEY<TAB>VALUE lines; date inputs -> YYYYMMDD;
-     volatility_series = value_date|vol; disc_rate_series = maturity|rate.
-     Fields hidden by visibility rules are STILL serialized (defaults),
-     exactly like the desktop GUI writes every key.
-
-     Test hooks: ?autorun=px|iv (comma-separated sequence allowed) computes
-     on load; ?set_<key>=<value> presets a field first. Outcomes are
-     mirrored into <body data-test-runs>. -->
+<!-- index.html — option pricer web UI. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -26,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="wasm/icon.svg" type="image/svg+xml">
+<link rel="icon" href="wasm/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="wasm/icon-192.png">
 <title>Option Pricer</title>
 <style>
@@ -124,12 +106,14 @@
   </div>
   <div class="col sticky">
     <div class="seg" id="modeSeg">
-      <button id="segPx" class="on" disabled>Price</button>
+      <button id="segPx" class="on" disabled>Valuation</button>
       <button id="segIv" disabled>Implied volatility</button>
     </div>
     <div class="figures" id="figures"></div>
     <div><span id="status">loading engine…</span></div>
-    <details class="kv"><summary>generated params (what C++ receives)</summary>
+    <details class="kv"><summary>generated params (for C++ engine) 
+	[<a href="https://qiang-liu.com/ql_md_template.html?my.md=finapps/option-app.md">See more info</a>]
+	</summary>
       <pre id="kv"></pre></details>
     <div class="loghdr"><h2>main log</h2>
       <button class="mini" id="dl0">Download</button>
@@ -139,6 +123,7 @@
       <button class="mini" id="dl1">Download</button>
       <button class="mini" id="cl1">Clear</button></div>
     <div class="log" id="log1"></div>
+    <div>&copy; 2026 by Qiang Liu, Shuxin Guo</div>
   </div>
 </div>
 
