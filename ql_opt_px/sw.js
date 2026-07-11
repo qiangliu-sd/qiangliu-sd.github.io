@@ -3,12 +3,11 @@
 // (no stale-build surprises during development), fully functional offline.
 // Bump CACHE on breaking layout changes to drop stale entries.
 
-const CACHE = 'optpx-v2';              // bumped: icons moved into wasm/
+const CACHE = 'optpx-v3';              // bumped: QL logo icons, no svg
 const SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './wasm/icon.svg',
   './wasm/icon-192.png',
   './wasm/icon-512.png',
   './wasm/option.js',

@@ -20,6 +20,22 @@
 	"dollar": "Dollar alue: Positive",
 	"percent": "Value (5% as 0.05): Positive"
 },
+"PxIV":
+	{
+		"value_date": [ "Valuation date", "4/15/2026", "date_fmt", "date_us" ],
+		"disc_rate_id": ["", "flat_step"],
+		"disc_rate_series": [ "Risk-free rate (annual)", "0.05", "nn_percent" ],
+		"gkey_cpp": [ "Option dll", "optionpxfuncsql.dll" ],
+		"gkey_dir": [ "Full path of this GUI", "work_dir" ],
+		"gkey_PxIv": [
+			"Pricing or Solving IV",
+			[ "Price", "Implied volatility" ]
+		],
+		"gkey_fair": [ "Fair value", "" ],
+		"gkey_delta": [ "Delta", "" ],
+		"gkey_gamma": [ "Gamma", "" ],
+		"gkey_iv": [ "Implied volatility", "" ]
+	},
 "Option": 
 {
 	"derivative_trd_name": ["Option name", "IBM"],  
@@ -73,23 +89,6 @@
 		"montecarlo_steps": [ "No. Monte Carlo steps", "100" ],
 		"montecarlo_paths": [ "No. Monte Carlo paths", "100000" ],
 		"fixed_rand_seed": [ "Fixed random seed", ["false", "true"] ]
-	},
-"PxIV":
-	{
-		"value_date": [ "Valuation date", "4/15/2026", "date_fmt", "date_us" ],
-    "gkey_6": ["Risk-free Interest Rate---"],
-		"disc_rate_id": ["Discount curve", "flat_step"],
-		"disc_rate_series": [ "Risk-free rate (annual)", "0.05", "nn_percent" ],
-		"gkey_cpp": [ "Option dll", "optionpxfuncsql.dll" ],
-		"gkey_dir": [ "Full path of this GUI", "work_dir" ],
-		"gkey_PxIv": [
-			"Pricing or Solving IV",
-			[ "Price", "Implied volatility" ]
-		],
-		"gkey_fair": [ "Fair value", "" ],
-		"gkey_delta": [ "Delta", "" ],
-		"gkey_gamma": [ "Gamma", "" ],
-		"gkey_iv": [ "Implied volatility", "" ]
 	},
 "Default":
 {

@@ -111,7 +111,7 @@
     </div>
     <div class="figures" id="figures"></div>
     <div><span id="status">loading engine…</span></div>
-    <details class="kv"><summary>generated params (for C++ engine) 
+    <details class="kv"><summary>generated parameters (for C++ engine) 
 	[<a href="https://qiang-liu.com/ql_md_template.html?my.md=finapps/option-app.md">See more info</a>]
 	</summary>
       <pre id="kv"></pre></details>
@@ -388,6 +388,12 @@ async function compute() {
   for (const [key, f] of fields)
     if (!f.hidden && f.el.tagName !== 'SELECT')
       f.el.classList.toggle('bad', fieldError(key) !== null);
+  // cross-field: maturity must not be earlier than the valuation date
+  if (!fieldError('maturity') && !fieldError('value_date') &&
+      rawValue('maturity') < rawValue('value_date')) {
+    errors.push('Maturity: must not be earlier than Valuation date');
+    fields.get('maturity').el.classList.add('bad');
+  }
   if (errors.length) {
     $('status').innerHTML =
       `<span class="err">fix inputs:\n  ${errors.join('\n  ')}</span>`;
