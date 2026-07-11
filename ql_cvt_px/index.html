@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<!-- index.html — convertible-bond pricer web UI (cvtbond.wasm).
+     Form layout comes from wasm/cvtbond.json -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="wasm/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="wasm/icon-192.png">
+<title>Convertible Bond Pricer</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d1117; --panel: #161b22; --panel2: #21262d; --line: #30363d;
+    --ink: #d8dee6; --muted: #8b949e; --faint: #484f58;
+    --accent: #e8c76f; --act: #1f6feb; --pos: #56d364; --neg: #f85149;
+    --sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, Consolas, "Cascadia Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.45 var(--sans);
+         padding: max(1rem, env(safe-area-inset-top))
+                  max(1rem, env(safe-area-inset-right))
+                  max(1rem, env(safe-area-inset-bottom))
+                  max(1rem, env(safe-area-inset-left)); }
+  h1 { font: 700 1rem/1.4 var(--sans); letter-spacing: .12em;
+       text-transform: uppercase; color: var(--accent); margin: 0 0 .9rem; }
+  h1 small { font: 400 11px/1 var(--mono); letter-spacing: 0;
+             text-transform: none; color: var(--muted); }
+  .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+  .col { flex: 1 1 420px; min-width: 300px; }
+  .col.sticky { position: sticky; top: 1rem; }
+  details.card { background: var(--panel); border: 1px solid var(--line);
+                 border-radius: 8px; margin: 0 0 .75rem; padding: 0 .8rem; }
+  details.card > summary { cursor: pointer; padding: .55rem 0;
+                           color: var(--accent); font-weight: 600;
+                           letter-spacing: .04em; user-select: none; }
+  details.card.off > summary { color: var(--faint); }
+  .fields { display: grid; grid-template-columns: minmax(11rem, 1fr) minmax(8rem, 1fr);
+            gap: .45rem .75rem; align-items: center; padding: 0 0 .8rem; }
+  .fields label { color: var(--muted); }
+  .fields input, .fields select {
+    background: var(--bg); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 6px; padding: .35rem .5rem; width: 100%;
+    font: 14px/1.4 var(--mono); min-height: 2.1rem; }
+  .fields input:focus, .fields select:focus { outline: 1px solid var(--act); }
+  .fields input:disabled, .fields select:disabled { color: var(--faint); }
+  .fields input.bad { border-color: var(--neg); }
+  .fields select.toggle { border-color: var(--accent); }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 8px;
+         overflow: hidden; margin: 0 0 .75rem; }
+  .seg button { flex: 1; background: var(--panel); color: var(--muted);
+                border: 0; margin: 0; border-radius: 0; padding: .6rem 1rem;
+                font: 600 14px/1.4 var(--sans); min-height: 44px;
+                cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on { background: var(--act); color: #fff; }
+  .seg button:disabled { color: var(--faint); cursor: wait; }
+  .figures { display: flex; gap: .75rem; flex-wrap: wrap; margin: 0 0 .75rem; }
+  .fig { background: var(--panel); border: 1px solid var(--line);
+         border-radius: 8px; padding: .6rem .9rem; min-width: 8.5rem; flex: 1; }
+  .fig .cap { color: var(--muted); font-size: 12px; letter-spacing: .05em; }
+  .fig .val { font: 400 1.45rem/1.3 var(--mono); color: var(--accent);
+              font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .fig .val.pos { color: var(--pos); } .fig .val.neg { color: var(--neg); }
+  button.mini { background: var(--panel2); color: var(--muted);
+                padding: .2rem .65rem; margin: 0 0 0 .5rem; font-size: 12px;
+                font-family: var(--sans); border: 1px solid var(--line);
+                border-radius: 6px; cursor: pointer; }
+  button.mini:hover { color: var(--ink); }
+  #status { display: inline-block; color: var(--muted); min-height: 1.4em;
+            white-space: pre-wrap; font-family: var(--mono); font-size: 13px; }
+  #status .err { color: var(--neg); } #status .ok { color: var(--pos); }
+  .log { background: var(--panel); border: 1px solid var(--line);
+         border-radius: 8px; padding: .5rem; height: 11rem; overflow-y: auto;
+         white-space: pre-wrap; font: 12px/1.5 var(--mono); }
+  .loghdr { display: flex; align-items: baseline; margin: .75rem 0 .25rem; }
+  .loghdr h2 { font: 600 12px/1.4 var(--sans); letter-spacing: .06em;
+               text-transform: uppercase; color: var(--muted); margin: 0; }
+  details.kv { margin: .75rem 0 0; }
+  details.kv > summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+  #kv { background: var(--panel); border: 1px solid var(--line);
+        border-radius: 8px; padding: .5rem; font: 12px/1.5 var(--mono);
+        white-space: pre; overflow-x: auto; margin: .25rem 0 0; }
+  small { color: var(--muted); }
+  @media (max-width: 720px) {          /* phones */
+    .col.sticky { position: static; }
+    .fields { grid-template-columns: 1fr; gap: .15rem .75rem; }
+    .fields label { margin-top: .45rem; }
+    .fields input, .fields select { font-size: 16px; min-height: 44px; }
+    .fig .val { font-size: 1.25rem; }
+    button.mini { min-height: 32px; }
+  }
+</style>
+</head>
+<body>
+<h1>Convertible Bond Pricer <small id="build"></small></h1>
+<div class="row">
+  <div class="col" id="formCol">
+    <!-- cards generated from cvtbond.json -->
+  </div>
+  <div class="col sticky">
+    <div class="seg" id="modeSeg">
+      <button id="segPx" class="on" disabled>Valuation</button>
+      <button id="segIv" disabled>Implied volatility</button>
+    </div>
+    <div class="figures" id="figures"></div>
+    <div><span id="status">loading engine…</span></div>
+    <details class="kv"><summary>generated parameters (for C++ engine)
+	[<a href="https://qiang-liu.com/ql_md_template.html?my.md=finapps/cvtbond-app.md">More on convertible bond</a>]
+      <button class="mini" id="dlkv">Download</button></summary>
+      <pre id="kv"></pre></details>
+    <div class="loghdr"><h2>main log</h2>
+      <button class="mini" id="dl0">Download</button>
+      <button class="mini" id="cl0">Clear</button></div>
+    <div class="log" id="log0"></div>
+    <div class="loghdr"><h2>error log</h2>
+      <button class="mini" id="dl1">Download</button>
+      <button class="mini" id="cl1">Clear</button></div>
+    <div class="log" id="log1"></div>
+    <div>&copy; 2026 by Qiang Liu, Shuxin Guo</div>
+  </div>
+</div>
+
+<script type="module">
+const $ = id => document.getElementById(id);
+
+// ---- logging shim: per-run buffer + live pane + download -------------------
+const LOG_NAMES = ['cvtbond_main', 'cvtbond_error'];   // download file names
+const logBuf   = [[], []];                             // current run's lines
+const logPanes = [$('log0'), $('log1')];
+
+function onLog(ch, text) {
+  const c = ch === 1 ? 1 : 0;
+  logBuf[c].push(text);
+  logPanes[c].textContent += text + '\n';
+  logPanes[c].scrollTop = logPanes[c].scrollHeight;
+}
+
+function downloadText(name, text) {
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
+  a.download = `${name}_${stamp}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function clearLog(c) { logBuf[c].length = 0; logPanes[c].textContent = ''; }
+
+// the hosting server's clock, from the HTTP Date header (HEAD skips the
+// service-worker cache, so this stays fresh; engine "today" is client-set)
+async function logServerDate() {
+  try {
+    const r = await fetch('.', { method: 'HEAD', cache: 'no-store' });
+    onLog(0, 'server date: ' + (r.headers.get('date') || 'no Date header'));
+  } catch { onLog(0, 'server date: unavailable (offline?)'); }
+}
+
+$('dl0').onclick = () => downloadText(LOG_NAMES[0], logBuf[0].join('\n') + '\n');
+$('dl1').onclick = () => downloadText(LOG_NAMES[1], logBuf[1].join('\n') + '\n');
+$('cl0').onclick = () => clearLog(0);
+$('cl1').onclick = () => clearLog(1);
+$('dlkv').onclick = e => { e.preventDefault(); downloadText('cvtbond_params', buildParams()); };
+// ----------------------------------------------------------------------------
+
+// ---- form generator: cvtbond.json is the single source of truth ------------
+// __fltk.cvtbond_params.txt (the desktop app's file) is optional: when it is
+// present next to the page it overrides the field values; when it is absent
+// (e.g. the deployed site) the defaults in cvtbond.json are used as-is.
+const [cfg, initTxt] = await Promise.all([
+  (await fetch('wasm/cvtbond.json')).json(),
+  fetch('__fltk.cvtbond_params.txt')
+    .then(r => (r.ok ? r.text() : ''), () => ''),
+]);
+const TIPS = cfg.Tooltips || {};
+
+// section key -> [file/card header, enable-toggle gkey (null = always on)],
+// in the exact order the FLTK desktop app writes the params file.
+const SECTIONS = [
+  ['PxIV',       'PRICING INFO',      null],
+  ['Convert',    'CONVERT',           null],
+  ['Coupon',     'COUPON',            'gkey_cpn'],
+  ['Call',       'CALL',              'gkey_call'],
+  ['ProvCall',   'SOFT CALL',         'gkey_pc'],
+  ['Put',        'PUT',               'gkey_put'],
+  ['ProvPut',    'SOFT PUT',          'gkey_pp'],
+  ['Stock',      'STOCK',             null],
+  ['FiniteDiff', 'FINITE DIFFERENCE', null],
+];
+
+// gkey_* handled natively by this page instead of shown as fields:
+// gkey_PxIv = the mode segment, gkey_fair/delta/gamma/iv = result figures,
+// gkey_cpp/gkey_dir = desktop dll/path info.  Toggle gkeys become the
+// section on/off dropdowns; result captions are read from the json.
+const FIGS = {
+  fair:  cfg.PxIV.gkey_fair[0],  delta: cfg.PxIV.gkey_delta[0],
+  gamma: cfg.PxIV.gkey_gamma[0], iv:    cfg.PxIV.gkey_iv[0],
+};
+
+const usToIso  = us => {                      // "4/15/2026" -> "2026-04-15"
+  const [m, d, y] = us.split('/').map(Number);
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+};
+const ymdToIso = s => `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6)}`;
+const isoToYmd = iso => iso.replaceAll('-', '');   // "2026-04-15" -> "20260415"
+const isUsDate = s => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s);
+// the C++ engine accepts YYYYMMDD dates ONLY: normalize US m/d/yyyy and
+// ISO yyyy-mm-dd in free-text values (coupon date|rate rows) — applied to
+// the text-field defaults so the UI shows YYYYMMDD too
+const normDates = s => s
+  .replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/g,
+           (_, m, d, y) => y + m.padStart(2, '0') + d.padStart(2, '0'))
+  .replace(/(\d{4})-(\d{1,2})-(\d{1,2})/g,
+           (_, y, m, d) => y + m.padStart(2, '0') + d.padStart(2, '0'));
+
+// key -> {el, lbl, validator, caption}; toggles: section -> select element
+const fields  = new Map();
+const toggles = new Map();
+const gkeyToggles = new Map();           // gkey name -> section (for ?set_)
+const secBody = new Map();               // section -> [field keys] to en/disable
+
+for (const [sec, title, tglKey] of SECTIONS) {
+  const card = document.createElement('details');
+  card.className = 'card';
+  card.open = true;
+  card.innerHTML = `<summary>${title}</summary>`;
+  const grid = document.createElement('div');
+  grid.className = 'fields';
+  card.appendChild(grid);
+  const bodyKeys = [];
+
+  for (const [key, spec] of Object.entries(cfg[sec])) {
+    if (key.startsWith('gkey_')) {
+      if (key === tglKey) {              // section enable/disable dropdown
+        const lbl = document.createElement('label');
+        lbl.textContent = spec[0];
+        const el = document.createElement('select');
+        el.className = 'toggle';
+        for (const c of ['true', 'false']) {
+          const o = document.createElement('option');
+          o.value = o.textContent = c;
+          el.appendChild(o);
+        }
+        el.value = spec[1][0];           // json default ("true" or "false")
+        // soft-call also drives CALL's visibility, so refresh both
+        el.onchange = () => { applySection(sec); applySection('Call'); };
+        grid.append(lbl, el);
+        toggles.set(sec, { el, card });
+        gkeyToggles.set(key, sec);
+      }
+      continue;                          // other gkeys: desktop-GUI info
+    }
+    const [caption, dflt, tipKey, validator] = spec;
+    if (caption === '') { fields.set(key, { hidden: true, value: dflt }); continue; }
+    const lbl = document.createElement('label');
+    lbl.textContent = caption;
+    lbl.htmlFor = 'f_' + key;
+    let el;
+    if (Array.isArray(dflt)) {                // choice list -> dropdown
+      el = document.createElement('select');
+      for (const c of dflt) {
+        const o = document.createElement('option');
+        o.value = o.textContent = c;
+        el.appendChild(o);
+      }
+    } else if (validator === 'date_us' || isUsDate(dflt)) {   // date picker
+      el = document.createElement('input');
+      el.type = 'date';
+      el.value = usToIso(dflt);
+    } else {
+      el = document.createElement('input');
+      el.type = 'text';
+      if (validator) el.inputMode = 'decimal';
+      el.value = normDates(dflt);
+    }
+    el.id = 'f_' + key;
+    if (tipKey) el.title = lbl.title = TIPS[tipKey] || tipKey;
+    grid.append(lbl, el);
+    fields.set(key, { el, lbl, validator, caption, sec });
+    bodyKeys.push(key);
+  }
+  secBody.set(sec, bodyKeys);
+  $('formCol').appendChild(card);
+}
+
+// phones: start with only the first card open
+if (matchMedia('(max-width: 720px)').matches)
+  document.querySelectorAll('details.card').forEach((c, i) => { c.open = i === 0; });
+
+function rawValue(key) {
+  const f = fields.get(key);
+  if (f.hidden) return f.value;
+  return f.el.type === 'date' ? isoToYmd(f.el.value) : f.el.value.trim();
+}
+const secOn = sec => !toggles.has(sec) || toggles.get(sec).el.value === 'true';
+
+// ---- initial values: the params file the FLTK desktop app wrote ------------
+// Plain keys map 1:1; "date|value" schedules split back into the GUI's
+// start-date + value pair.  Section toggles are NOT taken from the file:
+// their start-up state is the gkey default in cvtbond.json.
+{
+  const kv = new Map();
+  for (const line of initTxt.split(/\r?\n/)) {
+    if (line.startsWith('#')) continue;
+    const [k, v] = line.split('\t');
+    if (!k || v === undefined) continue;
+    kv.set(k, v);
+  }
+
+  const setF = (key, v) => {
+    const f = fields.get(key);
+    if (!f || f.hidden) return;
+    if (f.el.type === 'date') f.el.value = /^\d{8}$/.test(v) ? ymdToIso(v) : v;
+    else f.el.value = v;
+  };
+  const SPLIT = {                       // fileKey: [dateField, valueField]
+    convert_schedule:  ['cvt_start_datex', 'convert_schedule'],
+    provcall_schedule: ['pc_start_datex',  'provcall_schedule'],
+    put_schedule:      ['put_start_datex', 'put_schedule'],
+    provput_schedule:  ['pp_start_datex',  'provput_schedule'],
+    call_schedule:     [null,              'call_schedule'],  // date = call_start_date
+    disc_rate_series:  [null,              'disc_rate_series'],   // date = maturity
+    volatility_series: [null,              'volatility_series'],  // date = value_date
+  };
+  for (const [k, v] of kv) {
+    if (k === 'stk_trigger_schedule') continue;      // derived from provcall_terms
+    if (k === 'coupon_schedule') {                   // date|cpn|date|cpn|... -> rows
+      const t = v.split('|');
+      for (let i = 0; i * 2 < t.length && i < 10; i++)
+        setF('coupon_schedule' + (i ? i + 1 : ''), `${t[i * 2]}|${t[i * 2 + 1] ?? ''}`);
+      continue;
+    }
+    if (SPLIT[k]) {
+      const [d, val] = v.split('|');
+      if (SPLIT[k][0]) setF(SPLIT[k][0], d);
+      setF(SPLIT[k][1], val ?? d);
+    } else setF(k, v);
+  }
+}
+
+// ---- conditional visibility -------------------------------------------------
+let mode = 'px';                              // 'px' | 'iv' (gkey_PxIv toggle)
+
+const VIS = {
+  derivative_px: () => mode === 'iv',         // market px only for solving IV
+};
+for (let i = 2; i <= 10; i++)                 // step-up rows only when stepping up
+  VIS['coupon_schedule' + i] = () => rawValue('is_stepup_cpn') === 'true';
+// AFV-only inputs are meaningless under the plain Black-Scholes-Merton PDE
+const isAfv = () => rawValue('pde_model_id') !== 'bsm_pde';
+for (const k of ['hazard_rate', 'recovery', 'recover_face', 'afv_eta'])
+  VIS[k] = isAfv;
+
+function applyVis() {
+  for (const [key, pred] of Object.entries(VIS)) {
+    const f = fields.get(key);
+    if (!f || f.hidden) continue;
+    f.el.style.display = f.lbl.style.display = pred() ? '' : 'none';
+  }
+}
+const HIDE_OFF = new Set(['Coupon', 'Call', 'ProvCall', 'Put', 'ProvPut']);
+function applySection(sec) {                  // grey out toggled-off sections
+  // CALL stays fully editable while soft-callable — its terms are the
+  // base for the soft call; it hides only when BOTH are off
+  const active = secOn(sec) || (sec === 'Call' && secOn('ProvCall'));
+  toggles.get(sec)?.card.classList.toggle('off', !active);
+  const hide = !active && HIDE_OFF.has(sec);
+  for (const key of secBody.get(sec) || []) {
+    const f = fields.get(key);
+    if (f.hidden) continue;
+    f.el.disabled = !active;
+    f.el.style.display = f.lbl.style.display = hide ? 'none' : '';
+  }
+}
+const fieldActive = key => {
+  const f = fields.get(key);
+  return !f.hidden && !f.el.disabled && f.el.style.display !== 'none';
+};
+
+// validators: plus (> 0), non_minus (>= 0), btw_a_b (a <= v <= b);
+// dates/others: non-empty. Only ACTIVE fields are validated.
+function fieldError(key) {
+  const f = fields.get(key);
+  if (f.hidden || !fieldActive(key) || f.el.tagName === 'SELECT') return null;
+  const v = f.el.value.trim();
+  if (/^coupon_schedule/.test(key)) {         // date|rate rows
+    if (v === '' && key !== 'coupon_schedule') return null;  // blank row = skipped
+    return /^\d{8}\|[^|\s]+$/.test(normDates(v))
+      ? null : `${f.caption}: must be date|rate`;
+  }
+  if (v === '') return `${f.caption}: required`;
+  if (!f.validator || f.validator === 'date_us') return null;
+  const btw = f.validator.match(/^btw_(\d+)_(\d+)$/);
+  const n = Number(v);
+  if (!isFinite(n)) return `${f.caption}: not a number`;
+  if (f.validator === 'plus' && n <= 0) return `${f.caption}: must be > 0`;
+  if (f.validator === 'non_minus' && n < 0) return `${f.caption}: must be ≥ 0`;
+  if (btw && (n < +btw[1] || n > +btw[2]))
+    return `${f.caption}: must be in [${btw[1]}, ${btw[2]}]`;
+  return null;
+}
+
+// ---- KV serializer: the exact FLTK params-file grammar ----------------------
+// "#!---SECTION---:" headers; key<TAB>value; every date as YYYYMMDD;
+// schedules as "date|value" (start dates come from the *_datex fields);
+// stk_trigger_schedule is generated from provcall_terms' trigger price;
+// toggled-off sections keep their header but write no keys.
+function buildParams() {
+  const lines = [];
+  for (const [sec, title] of SECTIONS) {
+    lines.push(`#!---${title}---:`);
+    // not callable while soft-callable: CALL terms still serialize (the
+    // soft call needs them), but a worthless call at maturity stands in
+    // for the disabled call right
+    const callBase = sec === 'Call' && !secOn('Call') && secOn('ProvCall');
+    if (!secOn(sec) && !callBase) {
+      if (sec === 'Call')
+        lines.push(`call_schedule\t${rawValue('maturity')}|0`);
+      continue;
+    }
+    const stepup = rawValue('is_stepup_cpn') === 'true';
+    for (const key of Object.keys(cfg[sec])) {
+      if (key.startsWith('gkey_') || key.endsWith('_datex')) continue;
+      // step-up rows merge into the single coupon_schedule value below
+      if (/^coupon_schedule([2-9]|10)$/.test(key)) continue;
+      let v = rawValue(key);
+      if (key === 'has_cash_schedule' && v !== 'true') continue;
+      if (key === 'coupon_schedule' && stepup)
+        for (let i = 2; i <= 10; i++) {
+          const pair = rawValue('coupon_schedule' + i);
+          if (pair) v += '|' + pair;
+        }
+      if (key === 'disc_rate_series')  v = `${rawValue('maturity')}|${v}`;
+      if (key === 'volatility_series') v = `${rawValue('value_date')}|${v}`;
+      if (key === 'convert_schedule')  v = `${rawValue('cvt_start_datex')}|${v}`;
+      if (key === 'call_schedule')     v = callBase
+        ? `${rawValue('maturity')}|0` : `${rawValue('call_start_date')}|${v}`;
+      if (key === 'provcall_schedule') v = `${rawValue('pc_start_datex')}|${v}`;
+      if (key === 'put_schedule')      v = `${rawValue('put_start_datex')}|${v}`;
+      if (key === 'provput_schedule')  v = `${rawValue('pp_start_datex')}|${v}`;
+      lines.push(`${key}\t${v}`);
+      if (key === 'provcall_schedule') {
+        const trig = rawValue('provcall_terms').split('|')[2] ?? '';
+        lines.push(`stk_trigger_schedule\t${rawValue('pc_start_datex')}|${trig}`);
+      }
+    }
+  }
+  lines.push(`#!---DEFAULT (don't modify those)---:`);
+  for (const [k, v] of Object.entries(cfg.Default || {})) lines.push(`${k}\t${v}`);
+  // safety net: the engine wants YYYYMMDD everywhere — convert any US or
+  // ISO date typed into a free-text field (e.g. a step-up "date|rate" pair)
+  return normDates(lines.join('\n') + '\n');
+}
+
+const refreshKv = () => { $('kv').textContent = buildParams(); };
+$('formCol').addEventListener('input', refreshKv);
+$('formCol').addEventListener('change', () => { applyVis(); refreshKv(); });
+// ----------------------------------------------------------------------------
+
+// ---- results panel ----------------------------------------------------------
+const fmt = v => {
+  if (typeof v !== 'number' || !isFinite(v)) return String(v);
+  const a = Math.abs(v);
+  // 4 decimals; exponential only where toFixed would show 0.0000 or overflow
+  return (a !== 0 && (a < 1e-4 || a >= 1e7))
+    ? v.toExponential(4) : v.toFixed(4);
+};
+
+function showFigures(out) {
+  const items = mode === 'px'
+    ? [[FIGS.fair, out?.[0]], [FIGS.delta, out?.[1]], [FIGS.gamma, out?.[2]]]
+    : [[FIGS.iv, out?.[0]]];
+  $('figures').innerHTML = items.map(([cap, v]) => {
+    const cls = (cap === FIGS.delta && typeof v === 'number')
+      ? (v > 0 ? ' pos' : v < 0 ? ' neg' : '') : '';
+    return `<div class="fig"><div class="cap">${cap}</div>` +
+           `<div class="val${cls}">${v === undefined ? '—' : fmt(v)}</div></div>`;
+  }).join('');
+}
+
+function setMode(m) {
+  mode = m;
+  $('segPx').classList.toggle('on', m === 'px');
+  $('segIv').classList.toggle('on', m === 'iv');
+  showFigures();
+  applyVis();
+}
+// one click = choose mode AND compute
+$('segPx').onclick = () => { setMode('px'); compute(); };
+$('segIv').onclick = () => { setMode('iv'); compute(); };
+const setBusy = b => { $('segPx').disabled = $('segIv').disabled = b; };
+
+// ---- Web Worker: pricing off the main thread --------------------------------
+const worker = new Worker('./wasm/worker.js', { type: 'module' });
+let seq = 0;
+const pending = new Map();             // seq -> resolve
+let workerReady;
+const workerReadyP = new Promise(res => { workerReady = res; });
+
+worker.onmessage = ({ data }) => {
+  if (data.type === 'log') onLog(data.channel, data.text);
+  else if (data.type === 'ready') {
+    $('build').textContent = `build ${data.build} · expires ${data.expiry}`;
+    $('status').textContent = 'ready.';
+    setBusy(false);
+    logServerDate();
+    workerReady();
+  } else if (data.type === 'result') {
+    pending.get(data.seq)?.(data);
+    pending.delete(data.seq);
+  }
+};
+worker.onerror = e => {
+  $('status').innerHTML = `<span class="err">worker error: ${e.message}</span>`;
+};
+
+function priceInWorker(isPx, payload) {
+  return new Promise(resolve => {
+    pending.set(++seq, resolve);
+    worker.postMessage({ seq, isPx, payload });
+  });
+}
+// ----------------------------------------------------------------------------
+
+const testRuns = [];                   // per-run record for headless checks
+
+async function compute() {
+  const errors = [...fields.keys()].map(fieldError).filter(Boolean);
+  for (const [key, f] of fields)
+    if (!f.hidden && f.el.tagName !== 'SELECT')
+      f.el.classList.toggle('bad', fieldError(key) !== null);
+  if (errors.length) {
+    $('status').innerHTML =
+      `<span class="err">fix inputs:\n  ${errors.join('\n  ')}</span>`;
+    return;
+  }
+  const isPx = mode === 'px';
+  const payload = buildParams();
+  refreshKv();
+  // fresh logs per run, like the desktop's per-run log files
+  clearLog(0); clearLog(1);
+  await logServerDate();
+  setBusy(true);
+  const t0 = performance.now();
+  const tick = setInterval(() => {
+    $('status').textContent =
+      `running… ${((performance.now() - t0) / 1000).toFixed(1)} s`;
+  }, 100);
+  $('status').textContent = 'running…';
+
+  const { rc, out, ms, error } = await priceInWorker(isPx, payload);
+  clearInterval(tick);
+
+  if (rc === 0) {
+    showFigures(out);
+    $('status').innerHTML = `<span class="ok">done</span> (${ms.toFixed(0)} ms)`;
+  } else {
+    showFigures();
+    $('status').innerHTML =
+      `<span class="err">FAILED (rc=${rc}) — see error log` +
+      `${error ? ': ' + error : ''}</span> (${ms.toFixed(0)} ms)`;
+  }
+  // safe-checking: rc + the exact params the engine computed with
+  onLog(0, '#--- parameters used (is_px=' + isPx + ', rc=' + rc + ') ---');
+  payload.trimEnd().split('\n').forEach(l => onLog(0, l));
+  onLog(0, '#--- end parameters ---');
+
+  testRuns.push({ rc, out: (out || []).slice(0, 3),
+                  log0: logBuf[0].length, log1: logBuf[1].length });
+  document.body.dataset.testRuns = JSON.stringify(testRuns);
+  document.body.dataset.testDone = '1';
+  setBusy(false);
+}
+
+// ---- initial state + headless-test hooks ------------------------------------
+// ?set_<key>=<value> presets fields; ?autorun=px|iv (comma-sequence) computes.
+const qs = new URLSearchParams(location.search);
+for (const [k, v] of qs) {
+  if (!k.startsWith('set_')) continue;
+  const key = k.slice(4);
+  if (gkeyToggles.has(key)) { toggles.get(gkeyToggles.get(key)).el.value = v; continue; }
+  const f = fields.get(key);
+  if (!f || f.hidden) continue;
+  f.el.value = (f.el.type === 'date' && /^\d{8}$/.test(v)) ? ymdToIso(v) : v;
+}
+for (const [sec] of toggles) applySection(sec);
+setMode('px');
+refreshKv();
+
+const auto = (qs.get('autorun') || '').split(',').filter(Boolean);
+if (auto.length) {
+  await workerReadyP;                        // wait for the worker
+  for (const step of auto) {
+    if (step !== 'px' && step !== 'iv') continue;
+    setMode(step);
+    await compute();
+  }
+}
+
+// PWA: install to home screen + work offline (sw.js caches the app shell).
+if ('serviceWorker' in navigator)
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+</script>
+</body>
+</html>
