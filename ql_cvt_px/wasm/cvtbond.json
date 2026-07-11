@@ -131,7 +131,7 @@
 {
 	"diffuse_method_id":["Diffuser", ["crank_nicolson","explicit_finite","implicit_finite"]],
 	"finitediff_steps":["Number of time steps", "2000","positive","plus"],
-	"pde_model_id":["PDE model", ["bsm_pde", "afv_cb_pde"]],
+	"pde_model_id":["PDE model", ["afv_cb_pde","bsm_pde"]],
 	"hazard_rate":["Annual hazard rate (AFV)", "0.02", "afv"],
 	"recovery":["Recovery rate (AFV)", "0","nn_percent"],
 	"recover_face":["Recovery face (AFV)", "1.0", "recover_face"],
