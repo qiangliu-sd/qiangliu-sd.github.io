@@ -29,6 +29,22 @@ Provisional Call (Put), embedded choice to the issuer (holder) that conditional 
 
 The App with GUI can [be downloded from GitHub](https://github.com/qiangliu-sd/cvt-bond-pricer).
 
+Even better, you can [price CBs on your phone](https://qiang-liu.com/ql_cvt_px/index.html).
+
+The CB fair values can be validated with the default parameters when the App or webpage is launched. The following table shows the results for zero-coupon and semi-annual coupons:
+
+![CB fair values](images/cvt_fair_vals.png)
+
+To get the numers in the above table, make sure to choose *bsm_pde* as the **PDE model**, and *2* as the **coupon frequency**.
+
+Note that in principle, the holder's (issuer's) choice will increase (decrease) the fair value.
+
+The fair value of European call can be obtained easily from [price CBs on your phone](https://qiang-liu.com/ql_opt_px/index.html).
+
+The bond values can be simply verified by an Excel spreadsheet:
+
+![Bond values](images/bond_vals.png)
+
 ### References:
 <a name="afv"></a>AFV:\
 Ayache, Forsyth, Vetzal (2003). The valuation of convertible bonds with credit risk. Journal of Derivatives.
