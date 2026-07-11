@@ -16,12 +16,12 @@ Notes:
 2. When called, it is assumed the CB holder will always choose to convert.
 3. Soft-put: Uncommon in the US, but common in China.
 
-### CB Pricing
-In its simplest form, a CB can be converted to the stock or worth the par value at maturity. Therefore, the payoff is either S(T) or Par, whichever is greater (assume a conversion ratio of one). In math notation,
+### CB pricing
+In its simplest form, a CB can be converted to the stock or worth the par value at maturity. Therefore, the payoff is either the stock price at maturity, S(T), or Par, whichever is greater (assume a conversion ratio of one). In math notation,
 ```
 payoff = max[S(T), Par] = max[S(T)-Par, 0] + Par
 ```
-which is a portfolio of a call option with Par as the strike price and a zero-coupon bond. In this case, the value of CB is the sum of prices of European call and zero-coupon bond.
+which is a portfolio of a call option with Par as the strike price and a zero-coupon bond. In this case, the value of CB is the sum of prices of European call (assume no dividend payments) and zero-coupon bond.
 
 Hence, a CB can be priced by solving the Black-Scholes-Merton or [Ayache-Forsyth-Vetzal](#afv) PDE via finite difference method.
 
@@ -31,17 +31,17 @@ The App with GUI can [be downloded from GitHub](https://github.com/qiangliu-sd/c
 
 Even better, you can [price CBs on your phone](https://qiang-liu.com/ql_cvt_px/index.html).
 
-The CB fair values can be validated with the default parameters when the App or webpage is launched. The following table shows the results for zero-coupon and semi-annual coupons:
+The CB fair values can be validated with the default parameters when the App or webpage is launched. The following table shows the results for CB with zero-coupon and semi-annual coupons (*2* as the **coupon frequency**):
 
 ![CB fair values](images/cvt_fair_vals.png)
 
-To get the numers in the above table, make sure to choose *bsm_pde* as the **PDE model**, and *2* as the **coupon frequency**.
+To obtain the numers in the above table, make sure to choose *bsm_pde* as the **PDE model**.
 
-Note that in principle, the holder's (issuer's) choice will increase (decrease) the fair value.
+Note that in principle, the holder's (issuer's) choice will increase (decrease) the CB fair value.
 
-The fair value of European call can be obtained easily from [price CBs on your phone](https://qiang-liu.com/ql_opt_px/index.html).
+The fair value of European call can be obtained [on your phone](https://qiang-liu.com/ql_opt_px/index.html).
 
-The bond values can be simply verified by an Excel spreadsheet:
+The bond values can be simply verified by an Excel spreadsheet, as follows:
 
 ![Bond values](images/bond_vals.png)
 
