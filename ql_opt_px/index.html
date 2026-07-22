@@ -10,7 +10,39 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="wasm/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="wasm/icon-192.png">
-<title>Option Pricer</title>
+<title>Option Pricer — Free Online Option Pricing &amp; Implied Volatility Calculator</title>
+<meta name="description" content="Free online option pricer: value American and European options on dividend-paying stocks, stock index, foreign currency, and futures and solve implied volatility with Black-Scholes-Merton, binomial trees, finite difference, and Monte Carlo. Runs fully in your browser via WebAssembly — no data leaves your device.">
+<meta name="author" content="Qiang Liu, Shuxin Guo">
+<meta name="robots" content="index, follow">
+<!-- Update the canonical/og URLs if the app is hosted at a different address. -->
+<link rel="canonical" href="https://qiang-liu.com/ql_opt_px/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Option Pricer">
+<meta property="og:title" content="Option Pricer — Online Option Pricing &amp; Implied Volatility Calculator">
+<meta property="og:description" content="Value American and European options dividend-paying stocks, stock index, foreign currency, and futures and solve implied volatility with BSM, trees, finite difference, and Monte Carlo — fully in your browser via WebAssembly.">
+<meta property="og:url" content="https://qiang-liu.com/ql_opt_px/">
+<meta property="og:image" content="https://qiang-liu.com/ql_opt_px/wasm/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Option Pricer — Online Option Pricing &amp; Implied Volatility Calculator">
+<meta name="twitter:description" content="Price options and solve implied volatility with BSM, trees, finite difference, and Monte Carlo — fully in your browser via WebAssembly.">
+<meta name="twitter:image" content="https://qiang-liu.com/ql_opt_px/wasm/icon-512.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Option Pricer",
+  "url": "https://qiang-liu.com/ql_opt_px/",
+  "description": "Online option pricing and implied volatility calculator supporting Black-Scholes-Merton, binomial trees, finite difference, and Monte Carlo methods, running fully in the browser via WebAssembly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": [
+    { "@type": "Person", "name": "Qiang Liu" },
+    { "@type": "Person", "name": "Shuxin Guo" }
+  ]
+}
+</script>
 <style>
   :root {
     color-scheme: dark;
@@ -31,6 +63,8 @@
        text-transform: uppercase; color: var(--accent); margin: 0 0 .9rem; }
   h1 small { font: 400 11px/1 var(--mono); letter-spacing: 0;
              text-transform: none; color: var(--muted); }
+  .tagline { color: var(--muted); font-size: 13px; margin: -.5rem 0 .9rem;
+             max-width: 60rem; }
   .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
   .col { flex: 1 1 420px; min-width: 300px; }
   .col.sticky { position: sticky; top: 1rem; }
@@ -100,6 +134,10 @@
 </head>
 <body>
 <h1>Option Pricer <small id="build"></small></h1>
+<p class="tagline">Price options and solve implied
+volatility — running fully in your browser.</p>
+<noscript><p>This option calculator requires JavaScript and
+WebAssembly. Please enable JavaScript to compute.</p></noscript>
 <div class="row">
   <div class="col" id="formCol">
     <!-- cards generated from option.json -->
