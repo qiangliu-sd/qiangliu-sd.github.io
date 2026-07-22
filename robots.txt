@@ -4,5 +4,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://qiang-liu.com/sitemap.xml
-Sitemap: https://qiang-liu.com/ql_opt_px/sitemap.xml
-Sitemap: https://qiang-liu.com/ql_cvt_px/sitemap.xml

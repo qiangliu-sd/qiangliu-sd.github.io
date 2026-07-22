@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- sitemap for https://qiang-liu.com/ - deploy to the site root
+     (a sitemap can only list URLs at or below its own path). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://qiang-liu.com/</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://qiang-liu.com/ql_opt_px/</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://qiang-liu.com/ql_cvt_px/</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
