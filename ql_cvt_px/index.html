@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html — convertible-bond pricer web UI (cvtbond.wasm).
-     Form layout comes from wasm/cvtbond.json -->
+<!-- index.html — convertible-bond pricer web UI (cvtbond.wasm). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -11,7 +10,39 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="wasm/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="wasm/icon-192.png">
-<title>Convertible Bond Pricer</title>
+<title>Convertible Bond Pricer — Free Online Convertible Bond Valuation &amp; Implied Volatility Calculator</title>
+<meta name="description" content="Free online convertible bond pricer: value convertible bonds and solve implied volatility with a finite-difference PDE engine (Black-Scholes-Merton and AFV credit-risk models), including call, soft call, put, soft put, and step-up coupon features. Runs fully in your browser via WebAssembly — no data leaves your device.">
+<meta name="author" content="Qiang Liu, Shuxin Guo">
+<meta name="robots" content="index, follow">
+<!-- Update the canonical/og URLs if the app is hosted at a different address. -->
+<link rel="canonical" href="https://qiang-liu.com/ql_cvt_px/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Convertible Bond Pricer">
+<meta property="og:title" content="Convertible Bond Pricer — Online Convertible Bond Valuation &amp; Implied Volatility Calculator">
+<meta property="og:description" content="Value convertible bonds and solve implied volatility with a finite-difference PDE engine (BSM and AFV credit-risk models) — fully in your browser via WebAssembly.">
+<meta property="og:url" content="https://qiang-liu.com/ql_cvt_px/">
+<meta property="og:image" content="https://qiang-liu.com/ql_cvt_px/wasm/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Convertible Bond Pricer — Online Convertible Bond Valuation &amp; Implied Volatility Calculator">
+<meta name="twitter:description" content="Value convertible bonds and solve implied volatility with a finite-difference PDE engine (BSM and AFV credit-risk models) — fully in your browser via WebAssembly.">
+<meta name="twitter:image" content="https://qiang-liu.com/ql_cvt_px/wasm/icon-512.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Convertible Bond Pricer",
+  "url": "https://qiang-liu.com/ql_cvt_px/",
+  "description": "Online convertible bond valuation and implied volatility calculator using a finite-difference PDE engine with Black-Scholes-Merton and AFV credit-risk models, supporting call, soft call, put, and step-up coupon features, running fully in the browser via WebAssembly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": [
+    { "@type": "Person", "name": "Qiang Liu" },
+    { "@type": "Person", "name": "Shuxin Guo" }
+  ]
+}
+</script>
 <style>
   :root {
     color-scheme: dark;
@@ -32,6 +63,8 @@
        text-transform: uppercase; color: var(--accent); margin: 0 0 .9rem; }
   h1 small { font: 400 11px/1 var(--mono); letter-spacing: 0;
              text-transform: none; color: var(--muted); }
+  .tagline { color: var(--muted); font-size: 13px; margin: -.5rem 0 .9rem;
+             max-width: 60rem; }
   .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
   .col { flex: 1 1 420px; min-width: 300px; }
   .col.sticky { position: sticky; top: 1rem; }
@@ -100,6 +133,10 @@
 </head>
 <body>
 <h1>Convertible Bond Pricer <small id="build"></small></h1>
+<p class="tagline">Value convertible bonds and solve implied volatility — running fully in your
+browser.</p>
+<noscript><p>This convertible bond calculator requires JavaScript and
+WebAssembly. Please enable JavaScript to run computation.</p></noscript>
 <div class="row">
   <div class="col" id="formCol">
     <!-- cards generated from cvtbond.json -->
