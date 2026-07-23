@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<!-- index.html — option pricer web UI. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="wasm/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="wasm/icon-192.png">
+<title>Option Pricer — Free Online Option Pricing &amp; Implied Volatility Calculator</title>
+<meta name="description" content="Free online option pricer: value American and European options on dividend-paying stocks, stock index, foreign currency, and futures and solve implied volatility with Black-Scholes-Merton, binomial trees, finite difference, and Monte Carlo. Runs fully in your browser via WebAssembly — no data leaves your device.">
+<meta name="author" content="Qiang Liu, Shuxin Guo">
+<meta name="robots" content="index, follow">
+<!-- Update the canonical/og URLs if the app is hosted at a different address. -->
+<link rel="canonical" href="https://qiang-liu.com/optionpx/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Option Pricer">
+<meta property="og:title" content="Option Pricer — Online Option Pricing &amp; Implied Volatility Calculator">
+<meta property="og:description" content="Value American and European options dividend-paying stocks, stock index, foreign currency, and futures and solve implied volatility with BSM, trees, finite difference, and Monte Carlo — fully in your browser via WebAssembly.">
+<meta property="og:url" content="https://qiang-liu.com/optionpx/">
+<meta property="og:image" content="https://qiang-liu.com/optionpx/wasm/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Option Pricer — Online Option Pricing &amp; Implied Volatility Calculator">
+<meta name="twitter:description" content="Price options and solve implied volatility with BSM, trees, finite difference, and Monte Carlo — fully in your browser via WebAssembly.">
+<meta name="twitter:image" content="https://qiang-liu.com/optionpx/wasm/icon-512.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Option Pricer",
+  "url": "https://qiang-liu.com/optionpx/",
+  "description": "Online option pricing and implied volatility calculator supporting Black-Scholes-Merton, binomial trees, finite difference, and Monte Carlo methods, running fully in the browser via WebAssembly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": [
+    { "@type": "Person", "name": "Qiang Liu" },
+    { "@type": "Person", "name": "Shuxin Guo" }
+  ]
+}
+</script>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d1117; --panel: #161b22; --panel2: #21262d; --line: #30363d;
+    --ink: #d8dee6; --muted: #8b949e; --faint: #484f58;
+    --accent: #e8c76f; --act: #1f6feb; --pos: #56d364; --neg: #f85149;
+    --sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, Consolas, "Cascadia Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.45 var(--sans);
+         padding: max(1rem, env(safe-area-inset-top))
+                  max(1rem, env(safe-area-inset-right))
+                  max(1rem, env(safe-area-inset-bottom))
+                  max(1rem, env(safe-area-inset-left)); }
+  h1 { font: 700 1rem/1.4 var(--sans); letter-spacing: .12em;
+       text-transform: uppercase; color: var(--accent); margin: 0 0 .9rem; }
+  h1 small { font: 400 11px/1 var(--mono); letter-spacing: 0;
+             text-transform: none; color: var(--muted); }
+  .tagline { color: var(--muted); font-size: 13px; margin: -.5rem 0 .9rem;
+             max-width: 60rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+  .col { flex: 1 1 420px; min-width: 300px; }
+  .col.sticky { position: sticky; top: 1rem; }
+  details.card { background: var(--panel); border: 1px solid var(--line);
+                 border-radius: 8px; margin: 0 0 .75rem; padding: 0 .8rem; }
+  details.card > summary { cursor: pointer; padding: .55rem 0;
+                           color: var(--accent); font-weight: 600;
+                           letter-spacing: .04em; user-select: none; }
+  .fields { display: grid; grid-template-columns: minmax(11rem, 1fr) minmax(8rem, 1fr);
+            gap: .45rem .75rem; align-items: center; padding: 0 0 .8rem; }
+  .fields label { color: var(--muted); }
+  .fields input, .fields select {
+    background: var(--bg); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 6px; padding: .35rem .5rem; width: 100%;
+    font: 14px/1.4 var(--mono); min-height: 2.1rem; }
+  .fields input:focus, .fields select:focus { outline: 1px solid var(--act); }
+  .fields input.bad { border-color: var(--neg); }
+  .subhdr { grid-column: 1 / -1; color: var(--muted); font-size: 12px;
+            letter-spacing: .06em; text-transform: uppercase;
+            border-bottom: 1px dashed var(--line); padding: .45rem 0 .2rem;
+            margin-top: .25rem; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 8px;
+         overflow: hidden; margin: 0 0 .75rem; }
+  .seg button { flex: 1; background: var(--panel); color: var(--muted);
+                border: 0; margin: 0; border-radius: 0; padding: .6rem 1rem;
+                font: 600 14px/1.4 var(--sans); min-height: 44px;
+                cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on { background: var(--act); color: #fff; }
+  .seg button:disabled { color: var(--faint); cursor: wait; }
+  .figures { display: flex; gap: .75rem; flex-wrap: wrap; margin: 0 0 .75rem; }
+  .fig { background: var(--panel); border: 1px solid var(--line);
+         border-radius: 8px; padding: .6rem .9rem; min-width: 8.5rem; flex: 1; }
+  .fig .cap { color: var(--muted); font-size: 12px; letter-spacing: .05em; }
+  .fig .val { font: 400 1.45rem/1.3 var(--mono); color: var(--accent);
+              font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .fig .val.pos { color: var(--pos); } .fig .val.neg { color: var(--neg); }
+  button.mini { background: var(--panel2); color: var(--muted);
+                padding: .2rem .65rem; margin: 0 0 0 .5rem; font-size: 12px;
+                font-family: var(--sans); border: 1px solid var(--line);
+                border-radius: 6px; cursor: pointer; }
+  button.mini:hover { color: var(--ink); }
+  #status { display: inline-block; color: var(--muted); min-height: 1.4em;
+            white-space: pre-wrap; font-family: var(--mono); font-size: 13px; }
+  #status .err { color: var(--neg); } #status .ok { color: var(--pos); }
+  .log { background: var(--panel); border: 1px solid var(--line);
+         border-radius: 8px; padding: .5rem; height: 11rem; overflow-y: auto;
+         white-space: pre-wrap; font: 12px/1.5 var(--mono); }
+  .loghdr { display: flex; align-items: baseline; margin: .75rem 0 .25rem; }
+  .loghdr h2 { font: 600 12px/1.4 var(--sans); letter-spacing: .06em;
+               text-transform: uppercase; color: var(--muted); margin: 0; }
+  details.kv { margin: .75rem 0 0; }
+  details.kv > summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+  #kv { background: var(--panel); border: 1px solid var(--line);
+        border-radius: 8px; padding: .5rem; font: 12px/1.5 var(--mono);
+        white-space: pre; overflow-x: auto; margin: .25rem 0 0; }
+  small { color: var(--muted); }
+  @media (max-width: 720px) {          /* phones */
+    .col.sticky { position: static; }
+    .fields { grid-template-columns: 1fr; gap: .15rem .75rem; }
+    .fields label { margin-top: .45rem; }
+    .fields input, .fields select { font-size: 16px; min-height: 44px; }
+    .fig .val { font-size: 1.25rem; }
+    button.mini { min-height: 32px; }
+  }
+</style>
+</head>
+<body>
+<h1>Option Pricer <small id="build"></small></h1>
+<p class="tagline">Price options and solve implied
+volatility — running fully in your browser.</p>
+<noscript><p>This option calculator requires JavaScript and
+WebAssembly. Please enable JavaScript to compute.</p></noscript>
+<div class="row">
+  <div class="col" id="formCol">
+    <!-- cards generated from option.json -->
+  </div>
+  <div class="col sticky">
+    <div class="seg" id="modeSeg">
+      <button id="segPx" class="on" disabled>Valuation</button>
+      <button id="segIv" disabled>Implied volatility</button>
+    </div>
+    <div class="figures" id="figures"></div>
+    <div><span id="status">loading engine…</span></div>
+    <details class="kv"><summary>generated parameters (for C++ engine) 
+	[<a href="https://qiang-liu.com/ql_md_template.html?my.md=finapps/option-app.md">See more info</a>]
+	</summary>
+      <pre id="kv"></pre></details>
+    <div class="loghdr"><h2>main log</h2>
+      <button class="mini" id="dl0">Download</button>
+      <button class="mini" id="cl0">Clear</button></div>
+    <div class="log" id="log0"></div>
+    <div class="loghdr"><h2>error log</h2>
+      <button class="mini" id="dl1">Download</button>
+      <button class="mini" id="cl1">Clear</button></div>
+    <div class="log" id="log1"></div>
+    <div>&copy; 2026 by Qiang Liu, Shuxin Guo</div>
+  </div>
+</div>
+
+<script type="module">
+const $ = id => document.getElementById(id);
+
+// ---- logging shim: per-run buffer + live pane + download -------------------
+const LOG_NAMES = ['option_main', 'option_error'];   // download file names
+const logBuf   = [[], []];                           // current run's lines
+const logPanes = [$('log0'), $('log1')];
+
+function onLog(ch, text) {
+  const c = ch === 1 ? 1 : 0;
+  logBuf[c].push(text);
+  logPanes[c].textContent += text + '\n';
+  logPanes[c].scrollTop = logPanes[c].scrollHeight;
+}
+
+function downloadLog(c) {
+  const blob = new Blob([logBuf[c].join('\n') + '\n'], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
+  a.download = `${LOG_NAMES[c]}_${stamp}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function clearLog(c) { logBuf[c].length = 0; logPanes[c].textContent = ''; }
+
+$('dl0').onclick = () => downloadLog(0);
+$('dl1').onclick = () => downloadLog(1);
+$('cl0').onclick = () => clearLog(0);
+$('cl1').onclick = () => clearLog(1);
+// ----------------------------------------------------------------------------
+
+// ---- form generator: option.json is the single source of truth -------------
+const cfg = await (await fetch('wasm/option.json')).json();
+const TIPS = cfg.Tooltips || {};
+// display names for option.json section keys (keys themselves stay untouched)
+const SECTION_TITLES = { PxMethod: 'Pricing Method', PxIV: 'Pricing Info' };
+const SECTIONS = Object.keys(cfg)
+  .filter(k => !k.startsWith('__') && k !== 'Tooltips' && k !== 'Default');
+
+// key -> {el, lbl, validator, caption} for visible fields,
+//        {hidden: true, value}         for empty-caption params.
+const fields = new Map();
+const seps = new Map();                // caption-only gkey_* separators
+
+const usToIso = us => {                       // "4/15/2026" -> "2026-04-15"
+  const [m, d, y] = us.split('/').map(Number);
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+};
+const isoToYmd = iso => iso.replaceAll('-', '');   // "2026-04-15" -> "20260415"
+
+for (const sec of SECTIONS) {
+  const card = document.createElement('details');
+  card.className = 'card';
+  card.open = true;
+  card.innerHTML = `<summary>${SECTION_TITLES[sec] || sec}</summary>`;
+  const grid = document.createElement('div');
+  grid.className = 'fields';
+  card.appendChild(grid);
+
+  for (const [key, spec] of Object.entries(cfg[sec])) {
+    if (key.startsWith('gkey_')) {
+      // caption-only gkey = section separator; other gkeys are desktop-GUI
+      // info (dll path, results, mode) that this page implements natively.
+      if (spec.length === 1) {
+        const h = document.createElement('div');
+        h.className = 'subhdr';
+        h.textContent = spec[0].replace(/-+\s*$/, '');
+        grid.appendChild(h);
+        seps.set(key, h);
+      }
+      continue;
+    }
+    const [caption, dflt, tipKey, validator] = spec;
+    if (caption === '') {                     // hidden, still serialized
+      fields.set(key, { hidden: true, value: dflt });
+      continue;
+    }
+    const lbl = document.createElement('label');
+    lbl.textContent = caption;
+    lbl.htmlFor = 'f_' + key;
+    let el;
+    if (Array.isArray(dflt)) {                // choice list -> dropdown
+      el = document.createElement('select');
+      for (const c of dflt) {
+        const o = document.createElement('option');
+        o.value = o.textContent = c;
+        el.appendChild(o);
+      }
+    } else if (validator === 'date_us') {     // US date -> native date picker
+      el = document.createElement('input');
+      el.type = 'date';
+      el.value = usToIso(dflt);
+    } else {
+      el = document.createElement('input');
+      el.type = 'text';
+      if (validator) el.inputMode = 'decimal';
+      el.value = dflt;
+    }
+    el.id = 'f_' + key;
+    if (tipKey) el.title = lbl.title = TIPS[tipKey] || tipKey;
+    grid.append(lbl, el);
+    fields.set(key, { el, lbl, validator, caption });
+  }
+  $('formCol').appendChild(card);
+}
+
+// phones: start with only the first card (Option) open
+if (matchMedia('(max-width: 720px)').matches)
+  document.querySelectorAll('details.card').forEach((c, i) => { c.open = i === 0; });
+
+function rawValue(key) {
+  const f = fields.get(key);
+  if (f.hidden) return f.value;
+  return f.el.type === 'date' ? isoToYmd(f.el.value) : f.el.value.trim();
+}
+
+// ---- conditional visibility (replaces the desktop GUI's gkey separators) ---
+let mode = 'px';                              // 'px' | 'iv' (gkey_PxIv toggle)
+
+const stockish = c => c.u === 'common_stock' || c.u === 'stock_index';
+const stock    = c => c.u === 'common_stock';
+const fx       = c => c.u === 'foreign_currency';
+const fd       = c => c.m === 'finite_difference';
+const mc       = c => c.m === 'antithetic_mc' || c.m === 'antithetic_ls_mc';
+
+const VIS = {
+  gkey_1: stockish, continuous_div_yield: stockish,
+  gkey_2: stock, next_div_date: stock, fixed_dividend: stock,
+  div_frequency: stock,
+  gkey_3: fx, foreign_risk_free: fx,
+  gkey_4: fd, diffuse_method_id: fd, finitediff_steps: fd,
+  gkey_5: mc, montecarlo_steps: mc, montecarlo_paths: mc, fixed_rand_seed: mc,
+  derivative_px: () => mode === 'iv',         // market px only for solving IV
+};
+
+function applyVis() {
+  const ctx = { u: rawValue('underlying_id'), m: rawValue('deriv_px_method_id') };
+  for (const [key, pred] of Object.entries(VIS)) {
+    const show = pred(ctx) ? '' : 'none';
+    const f = fields.get(key);
+    if (f && !f.hidden) { f.el.style.display = show; f.lbl.style.display = show; }
+    if (seps.has(key)) seps.get(key).style.display = show;
+  }
+}
+const fieldVisible = key => {
+  const f = fields.get(key);
+  return !f.hidden && f.el.style.display !== 'none';
+};
+
+// validators: plus (> 0), non_minus (>= 0); dates/others: non-empty.
+// Only VISIBLE fields are validated; hidden ones serialize their defaults.
+function fieldError(key) {
+  const f = fields.get(key);
+  if (f.hidden || !fieldVisible(key) || f.el.tagName === 'SELECT') return null;
+  const v = f.el.value.trim();
+  if (v === '') return `${f.caption}: required`;
+  if (f.validator === 'plus' || f.validator === 'non_minus') {
+    const n = Number(v);
+    if (!isFinite(n)) return `${f.caption}: not a number`;
+    if (f.validator === 'plus' && n <= 0) return `${f.caption}: must be > 0`;
+    if (n < 0) return `${f.caption}: must be ≥ 0`;
+  }
+  return null;
+}
+
+// ---- KV serializer: the exact opt_px_params.txt grammar --------------------
+// Series params are derived: the engine wants "date|value" pairs, where
+// volatility starts at value_date and the discount rate at maturity.
+function buildParams() {
+  const lines = [];
+  for (const sec of SECTIONS) {
+    for (const key of Object.keys(cfg[sec])) {
+      if (key.startsWith('gkey_')) continue;
+      let v = rawValue(key);
+      if (key === 'volatility_series') v = `${rawValue('value_date')}|${v}`;
+      if (key === 'disc_rate_series')  v = `${rawValue('maturity')}|${v}`;
+      lines.push(`${key}\t${v}`);
+    }
+  }
+  for (const [k, v] of Object.entries(cfg.Default || {}))
+    lines.push(`${k}\t${v}`);
+  return lines.join('\n') + '\n';
+}
+
+const refreshKv = () => { $('kv').textContent = buildParams(); };
+$('formCol').addEventListener('input', refreshKv);
+$('formCol').addEventListener('change', () => { applyVis(); refreshKv(); });
+// ----------------------------------------------------------------------------
+
+// ---- results panel ----------------------------------------------------------
+const fmt = v => {
+  if (typeof v !== 'number' || !isFinite(v)) return String(v);
+  const a = Math.abs(v);
+  // 4 decimals; exponential only where toFixed would show 0.0000 or overflow
+  return (a !== 0 && (a < 1e-4 || a >= 1e7))
+    ? v.toExponential(4) : v.toFixed(4);
+};
+
+function showFigures(out) {
+  const items = mode === 'px'
+    ? [['Fair value', out?.[0]], ['Delta', out?.[1]], ['Gamma', out?.[2]]]
+    : [['Implied volatility', out?.[0]]];
+  $('figures').innerHTML = items.map(([cap, v]) => {
+    const cls = (cap === 'Delta' && typeof v === 'number')
+      ? (v > 0 ? ' pos' : v < 0 ? ' neg' : '') : '';
+    return `<div class="fig"><div class="cap">${cap}</div>` +
+           `<div class="val${cls}">${v === undefined ? '—' : fmt(v)}</div></div>`;
+  }).join('');
+}
+
+function setMode(m) {
+  mode = m;
+  $('segPx').classList.toggle('on', m === 'px');
+  $('segIv').classList.toggle('on', m === 'iv');
+  showFigures();
+  applyVis();
+}
+// one click = choose mode AND compute
+$('segPx').onclick = () => { setMode('px'); compute(); };
+$('segIv').onclick = () => { setMode('iv'); compute(); };
+const setBusy = b => { $('segPx').disabled = $('segIv').disabled = b; };
+
+// ---- Web Worker: pricing off the main thread --------------------------------
+const worker = new Worker('./wasm/worker.js', { type: 'module' });
+let seq = 0;
+const pending = new Map();             // seq -> resolve
+let workerReady;
+const workerReadyP = new Promise(res => { workerReady = res; });
+
+worker.onmessage = ({ data }) => {
+  if (data.type === 'log') onLog(data.channel, data.text);
+  else if (data.type === 'ready') {
+    $('build').textContent = 'build ' + data.build;
+    $('status').textContent = 'ready.';
+    setBusy(false);
+    workerReady();
+  } else if (data.type === 'result') {
+    pending.get(data.seq)?.(data);
+    pending.delete(data.seq);
+  }
+};
+worker.onerror = e => {
+  $('status').innerHTML = `<span class="err">worker error: ${e.message}</span>`;
+};
+
+function priceInWorker(isPx, payload) {
+  return new Promise(resolve => {
+    pending.set(++seq, resolve);
+    worker.postMessage({ seq, isPx, payload });
+  });
+}
+// ----------------------------------------------------------------------------
+
+const testRuns = [];                   // per-run record for headless checks
+
+async function compute() {
+  const errors = [...fields.keys()].map(fieldError).filter(Boolean);
+  for (const [key, f] of fields)
+    if (!f.hidden && f.el.tagName !== 'SELECT')
+      f.el.classList.toggle('bad', fieldError(key) !== null);
+  // cross-field: maturity must not be earlier than the valuation date
+  if (!fieldError('maturity') && !fieldError('value_date') &&
+      rawValue('maturity') < rawValue('value_date')) {
+    errors.push('Maturity: must not be earlier than Valuation date');
+    fields.get('maturity').el.classList.add('bad');
+  }
+  if (errors.length) {
+    $('status').innerHTML =
+      `<span class="err">fix inputs:\n  ${errors.join('\n  ')}</span>`;
+    return;
+  }
+  const isPx = mode === 'px';
+  const payload = buildParams();
+  refreshKv();
+  // fresh logs per run, like the desktop's per-run log files
+  clearLog(0); clearLog(1);
+  setBusy(true);
+  const t0 = performance.now();
+  const tick = setInterval(() => {
+    $('status').textContent =
+      `running… ${((performance.now() - t0) / 1000).toFixed(1)} s`;
+  }, 100);
+  $('status').textContent = 'running…';
+
+  const { rc, out, ms, error } = await priceInWorker(isPx, payload);
+  clearInterval(tick);
+
+  if (rc === 0) {
+    showFigures(out);
+    $('status').innerHTML = `<span class="ok">done</span> (${ms.toFixed(0)} ms)`;
+  } else {
+    showFigures();
+    $('status').innerHTML =
+      `<span class="err">FAILED — see error log${error ? ': ' + error : ''}` +
+      `</span> (${ms.toFixed(0)} ms)`;
+  }
+  // safe-checking: rc + the exact params the engine computed with
+  onLog(0, '#--- parameters used (is_px=' + isPx + ', rc=' + rc + ') ---');
+  payload.trimEnd().split('\n').forEach(l => onLog(0, l));
+  onLog(0, '#--- end parameters ---');
+
+  testRuns.push({ rc, out: (out || []).slice(0, 3),
+                  log0: logBuf[0].length, log1: logBuf[1].length });
+  document.body.dataset.testRuns = JSON.stringify(testRuns);
+  document.body.dataset.testDone = '1';
+  setBusy(false);
+}
+
+// ---- initial state + headless-test hooks ------------------------------------
+// ?set_<key>=<value> presets fields; ?autorun=px|iv (comma-sequence) computes.
+const qs = new URLSearchParams(location.search);
+for (const [k, v] of qs) {
+  if (!k.startsWith('set_')) continue;
+  const f = fields.get(k.slice(4));
+  if (!f || f.hidden) continue;
+  f.el.value = (f.el.type === 'date' && /^\d{8}$/.test(v))
+    ? `${v.slice(0, 4)}-${v.slice(4, 6)}-${v.slice(6)}` : v;
+}
+setMode('px');
+refreshKv();
+
+const auto = (qs.get('autorun') || '').split(',').filter(Boolean);
+if (auto.length) {
+  await workerReadyP;                        // wait for the worker
+  for (const step of auto) {
+    if (step !== 'px' && step !== 'iv') continue;
+    setMode(step);
+    await compute();
+  }
+}
+
+// PWA: install to home screen + work offline (sw.js caches the app shell).
+if ('serviceWorker' in navigator)
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+</script>
+</body>
+</html>

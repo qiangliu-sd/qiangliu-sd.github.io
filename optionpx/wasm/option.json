@@ -1,0 +1,97 @@
+{
+	"__note__option__pricing_": {
+		"format-of-this-JSON": "key: value == [caption, input <,tooltip, validator>(optional)]",
+		"key": "keys are wrote into params.file and used by C++ executable. Do NOT modify",
+		"value": "caption (py-Label)-input (py-Entry) pair within square-brackets",
+		"schedule-key": "caption-input pairs show sequentially on GUI. placed LAST on GUI",
+		"input-choice": "cpp_input-list (py-OptionMenu)",
+		"no-caption": "if EMPTY string as caption, do NOT show on GUI, but write to params.file",
+		"gkey_xx": "GUI-only info. hard-coded in GUI. Do NOT modify",
+		"gkey_2": "GUI-only info. Caption only, if no value field",
+		"validator": "<date_us, non_minus, plus, btw_2_7> (dynamic-range is encoded in btw_2_7, handled as default of switch-case, and passed to validating-event via TextBox.Tag in CSharp)"
+	},
+"Tooltips":
+{
+	"date_fmt": "US date: month/day/year",
+	"not_neg": "Value: Zero or positive",
+	"nn_dollar": "Dollar alue: Zero or positive",
+	"nn_percent": "Value (5% as 0.05): Zero or positive",
+	"positive": "Value: Positive",
+	"dollar": "Dollar alue: Positive",
+	"percent": "Value (5% as 0.05): Positive"
+},
+"PxIV":
+	{
+		"value_date": [ "Valuation date", "4/15/2026", "date_fmt", "date_us" ],
+		"disc_rate_id": ["", "flat_step"],
+		"disc_rate_series": [ "Risk-free rate (annual)", "0.05", "nn_percent" ],
+		"gkey_cpp": [ "Option dll", "optionpxfuncsql.dll" ],
+		"gkey_dir": [ "Full path of this GUI", "work_dir" ],
+		"gkey_PxIv": [
+			"Pricing or Solving IV",
+			[ "Price", "Implied volatility" ]
+		],
+		"gkey_fair": [ "Fair value", "" ],
+		"gkey_delta": [ "Delta", "" ],
+		"gkey_gamma": [ "Gamma", "" ],
+		"gkey_iv": [ "Implied volatility", "" ]
+	},
+"Option": 
+{
+	"derivative_trd_name": ["Option name", "IBM"],  
+	"derivative_id":	  ["Exercise style", ["american", "european"]],
+	"is_call":		  ["Is Call?", ["false", "true"]],
+	"maturity": [ "Maturity", "10/15/2026", "date_fmt", "date_us" ],
+	"strike_px": [ "Strike price", "100.0", "positive", "plus" ],
+	"derivative_px": [ "Option market price", "8.2", "positive", "plus" ]	
+},
+	"Underlying": {
+		"underlying_id": [
+			"Underlying type",
+			[ "common_stock", "stock_index", "foreign_currency", "futures" ]
+		],
+		"underlying_px": [ "Underlying price", "110", "positive", "plus" ],
+		"volatility_series": [ "Volatility (annual)", "0.35", "percent", "non_minus" ],
+		"gkey_1": ["Common Stock or Stock Index---"],
+		"continuous_div_yield": [ "Cont. dividend yield (annual)", "0.02", "nn_percent", "non_minus" ],
+		"gkey_2": ["Common Stock---"],
+		"next_div_date": [ "Dividend date", "07/15/2026", "date_fmt", "date_us" ],
+		"fixed_dividend": [ "Dividend amount (annual)", "7.0", "nn_dollar", "non_minus" ],
+		"div_frequency": [ "Dividend frequency", ["1","2","4"] ],
+		"gkey_3": ["Foreign Currency---"],
+		"foreign_risk_free": [ "Foreign risk-free rate (annual)", "0.02", "nn_percent", "non_minus" ]
+	},
+"PxMethod":
+	{
+		"deriv_px_method_id": [
+			"Option pricing method",
+			[
+				"bsm_formula",
+				"binom_tree",
+				"divamount_bda",
+				"divamount_bt",
+				"finite_difference",
+				"antithetic_mc",
+				"antithetic_ls_mc"
+			]
+		],
+    "gkey_4": ["Finite Difference Method---"],
+		"diffuse_method_id": [
+			"Diffuser",
+			[ "crank_nicolson", "explicit_finite", "implicit_finite" ]
+		],
+		"finitediff_steps": [ "No. finite time steps", "365", "positive", "plus" ],
+		"max_drift": [ "", "0.25" ],
+		"interp_id": [ "", "npoint_interp" ],
+		"interp_degree": [ "", "5" ],
+		"interp_mode_id": [ "", "np_following" ],
+    "gkey_5": ["Monte Carlo Method---"],
+		"montecarlo_steps": [ "No. Monte Carlo steps", "100" ],
+		"montecarlo_paths": [ "No. Monte Carlo paths", "100000" ],
+		"fixed_rand_seed": [ "Fixed random seed", ["false", "true"] ]
+	},
+"Default":
+{
+	"proportional_div":"0"
+}
+}   

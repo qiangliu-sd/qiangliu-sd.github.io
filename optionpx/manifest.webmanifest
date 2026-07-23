@@ -1,0 +1,13 @@
+{
+  "name": "Option Pricer",
+  "short_name": "OptPricer",
+  "description": "Option pricing engine (BSM, trees, finite difference, Monte Carlo) running fully in the browser via WebAssembly.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    { "src": "wasm/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "wasm/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
