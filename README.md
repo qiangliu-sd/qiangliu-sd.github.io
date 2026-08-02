@@ -33,6 +33,6 @@ Features:
 - Certain pages are generated from **ql_md_template.html** with a markdown file as the URL Parameter
 
 Know-how:
-- URL of my webpage &nbsp;&nbsp;&nbsp;&nbsp; [https://qiangliu-sd.github.io](qiang-liu.com)
+- URL of my webpage &nbsp;&nbsp;&nbsp;&nbsp; [https://qiangliu-sd.github.io](https://qiang-liu.com)
 
 
